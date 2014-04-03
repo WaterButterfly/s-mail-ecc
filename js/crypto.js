@@ -216,30 +216,56 @@ function rsapre()
 	prikey = aesdec(tmpivr, tmpkey, tmpmsg);
 }
 
-function rsagen()
+function keygen()
 {
-	rsaobj = new JSEncrypt({default_key_size:2048});
-	rsaobj.getKey(function() {
-		prikey = rsaobj.getPrivateKey();
-		jQuery('#prikey').html(prikey);
-		
-		pubkey = rsaobj.getPublicKey();
-		jQuery('#pubkey').html(pubkey);
-		
-		var iv = "";
-		for (var y = 0; y < 16; ++y) { iv += String.fromCharCode(Math.floor(Math.random() * 256)); }
-		
-		var encr = ("" + CryptoJS.SHA256(jQuery('#pass').val()) + "");
-		jQuery('#enckey').val(encr);
-		
-		var sign = ("" + CryptoJS.SHA256(encr) + "");
-		jQuery('#intkey').val(sign);
-		
-		var auth = ("" + CryptoJS.SHA256(sign) + "");
-		jQuery('#idnkey').val(auth);
-		
-		var key = encr.hexTOstr();
-		var outp = aesenc(iv, key, prikey);
-		jQuery('#prienc').val(outp);
-	});
+	if (keyobj == null)
+	{
+		var l = prime.toString(10).length, r = "", s = "";
+		for (var x = 0; x < l; ++x)
+		{
+			r += Math.floor(Math.random() * 10).toString();
+			s += Math.floor(Math.random() * 10).toString();
+		}
+		prikey = new BigInteger(r, 10);
+		keyobj = new BigInteger(s, 10);
+		prikey = prikey.mod(prime);
+	}
+	
+	keyobj = keyobj.mod(prime);
+	var pnt = [keyobj, curve_25519(keyobj, cnst, prime)];
+	//console.log("point:"+pnt[0].toString(10)+","+pnt[1].toString(10));
+	if (pnt[1] != -1)
+	{
+		var x = pnt[0].modPow(three, prime).add(cnst.multiply(pnt[0].modPow(two, prime))).add(pnt[0]).mod(prime);
+		var y = pnt[1].modPow(two, prime);
+		//console.log("check:"+x.toString(10)+"?="+y.toString(10));
+		if (x.equals(y))
+		{
+			var aG = point_mul(prikey, pnt, prime);
+			
+			jQuery('#prikey').html(prikey.toString(10));
+			jQuery('#pubkey').html(pnt[0].toString(10)+"\n"+pnt[1].toString(10)+"\n\n"+aG[0].toString(10)+"\n"+aG[1].toString(10));
+			
+			var iv = "";
+			for (var y = 0; y < 16; ++y) { iv += String.fromCharCode(Math.floor(Math.random() * 256)); }
+			
+			var encr = ("" + CryptoJS.SHA256(jQuery('#pass').val()) + "");
+			jQuery('#enckey').val(encr);
+			
+			var sign = ("" + CryptoJS.SHA256(encr) + "");
+			jQuery('#intkey').val(sign);
+			
+			var auth = ("" + CryptoJS.SHA256(sign) + "");
+			jQuery('#idnkey').val(auth);
+			
+			var key = encr.hexTOstr();
+			var outp = aesenc(iv, key, prikey.toString(10));
+			jQuery('#prienc').val(outp);
+			
+			return 0;
+		}
+	}
+	keyobj = keyobj.add(BigInteger.ONE);
+	
+	setTimeout("keygen();", 0);
 }

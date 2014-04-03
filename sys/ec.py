@@ -1,6 +1,8 @@
+import random
 import time
 
-p = (pow(2, 255) - 19)
+cnst = 486662
+prime = (pow(2, 255) - 19)
 
 def egcd(a, b):
 	if (a == 0):
@@ -158,40 +160,22 @@ def tonelli(a, p):
 		r = m
 	return -1
 
-def curve_25519(x, p):
-	y2 = ((pow_mod(x, 3, p) + (486662 * pow_mod(x, 2, p)) + x) % p)
+def curve_25519(x, c, p):
+	y2 = ((pow_mod(x, 3, p) + (c * pow_mod(x, 2, p)) + x) % p)
 	return tonelli(y2, p)
 
-i = 31337
-pnt = None
-while (pnt == None):
-	try:
-		q = [i, curve_25519(i, p)]
-	except:
-		i += 1
-		continue
-	x = ((pow_mod(q[0], 3, p) + (486662 * pow_mod(q[0], 2, p)) + q[0]) % p)
-	y = pow_mod(q[1], 2, p)
-	if (x == y):
-		print("point",q,"y^2%p=",y,"==","curve(x)",x)
-		pnt = q
-	i += 1
-
-m = 71; n = 73
-
-x = time.time()
-
-a = 23002347587565544268625339214141417360725798840824195817183950850507406831337
-aG = point_mul(a, pnt, p)
-
-b = 33951982198225404751798578318443600923434009233142787987410481710685782131337
-bG = point_mul(b, pnt, p)
-baG = point_mul(b, aG, p)
-
-mbaG = [m * baG[0], n * baG[1]]
-
-abG = point_mul(a, bG, p)
-
-y = time.time()
-
-print("pub=%s\n & %s\nmesg=[%d, %d]\ntime=%s ms" % (bG, mbaG, mbaG[0] / abG[0], mbaG[1] / abG[1], (y - x) * 1000))
+def pub_enc(pnt, aG, msg):
+	global cnst, prime
+	
+	x = 0; l = len(str(prime)); b = ""
+	while (x < l):
+		b += str(random.randint(0, 9))
+		x += 1
+	b = (int(b) % prime)
+	
+	bG = point_mul(b, pnt, prime)
+	baG = point_mul(b, aG, prime)
+	
+	mbaG = [msg[0] * baG[0], msg[1] * baG[1]]
+	
+	return [bG, mbaG]

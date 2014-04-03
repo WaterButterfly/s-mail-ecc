@@ -149,48 +149,8 @@ function tonelli(a, p)
 	return -1;
 }
 
-function curve_25519(x, p)
+function curve_25519(x, c, p)
 {
 	var y2 = x.modPow(three, p).add(c.multiply(x.modPow(two, p))).add(x).mod(p);
 	return tonelli(y2, p);
 }
-
-/*var i = new BigInteger("31337", 10);
-var pnt = null
-while (pnt == null)
-{
-	var q = [i, curve_25519(i, p)];
-	if (q[1] == -1)
-	{
-		i = i.add(BigInteger.ONE);
-		continue;
-	}
-	var x = q[0].modPow(three, p).add(c.multiply(q[0].modPow(two, p))).add(q[0]).mod(p);
-	var y = q[1].modPow(two, p);
-	if (x.equals(y))
-	{
-		pnt = q;
-		//document.write("point=["+pnt[0].toString(10)+", "+pnt[1].toString(10)+"] ((y^2)%p)="+y.toString(10)+" == "+"curve(x)="+x.toString(10)+"<br>");
-	}
-	i = i.add(BigInteger.ONE);
-}
-
-var m = new BigInteger("71", 10);
-var n = new BigInteger("73", 10);
-
-var nta = new Date().getTime();
-
-var a = new BigInteger("23002347587565544268625339214141417360725798840824195817183950850507406831337", 10);
-var aG = point_mul(a, pnt, p);
-
-var b = new BigInteger("33951982198225404751798578318443600923434009233142787987410481710685782131337", 10);
-var bG = point_mul(b, pnt, p);
-var baG = point_mul(b, aG, p);
-
-var mbaG = [m.multiply(baG[0]), n.multiply(baG[1])];
-
-var abG = point_mul(a, bG, p);
-
-var ntb = new Date().getTime();*/
-
-//document.write("pub=["+bG[0]+", "+bG[1]+"]<br> & ["+mbaG[0]+", "+mbaG[1]+"]<br>"+"mesg=["+mbaG[0].divide(abG[0]).toString(10)+", "+mbaG[1].divide(abG[1]).toString(10)+"]<br>"+"time="+(ntb-nta)+" ms<br>");

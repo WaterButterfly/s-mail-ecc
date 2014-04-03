@@ -136,10 +136,10 @@ function subjoin()
 		jQuery('#mesg').html(prem + "Your passwords do not match!" + post);
 		return 0;
 	}
-	if (rsaobj == null)
+	if (keyobj == null)
 	{
-		jQuery('#mesg').html("<font class='txtblue'>" + "Generating your RSA key now, please wait..." + "</font>");
-		rsagen();
+		jQuery('#mesg').html("<font class='txtblue'>" + "Generating your keys now, please wait..." + "</font>");
+		keygen();
 		setTimeout("subjoin();", 1000);
 		return 0;
 	}

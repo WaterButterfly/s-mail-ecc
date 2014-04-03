@@ -16,6 +16,8 @@ import Crypto.Cipher
 import Crypto.Cipher.AES
 import M2Crypto
 
+import ec
+
 def saferstr(inputstr, extrachr=""):
 	charlist = (string.digits + string.uppercase + string.lowercase + extrachr)
 	outpstri = ""
@@ -147,10 +149,20 @@ def main():
 						encrsivr = base64.b64encode(encrsivr)
 						encrskey = base64.b64encode(encrskey)
 						
-						rsakbioo = M2Crypto.BIO.MemoryBuffer(base64.b64decode(userlist[2]))
-						rsakobjc = M2Crypto.RSA.load_pub_key_bio(rsakbioo)
-						rsactext = rsakobjc.public_encrypt(encrskey, M2Crypto.RSA.pkcs1_padding)
-						rsacenco = rsactext.encode("base64")
+						pkeylist = base64.b64decode(userlist[2]).split("\n\n")
+						if (len(pkeylist) > 1):
+							pkeylist[0] = pkeylist[0].split("\n")
+							pkeylist[1] = pkeylist[1].split("\n")
+							if ((len(pkeylist[0]) > 1) and (len(pkeylist[1]) > 1)):
+								keysplit = [0, 0]; s = 0
+								for x in range(0, 16):
+									keysplit[0] = (keysplit[0] | ( << s))
+									s += 8
+								point = [int(pkeylist[0][0]), int(pkeylist[0][1])]
+								pubkey = [int(pkeylist[1][0]), int(pkeylist[1][1])]
+								pubkencr = ec.pub_enc(point, pubkey, keysplit)
+								rsacenco = base64.b64encode("%s\n%s\n\n%s\n%s\n" % (pubkencr[0][0], pubkencr[0][1], pubkencr[1][0], pubkencr[1][1]))
+						
 						for c in ["\0", "\t", "\r", "\n", " "]:
 							rsacenco = rsacenco.replace(c, "")
 						

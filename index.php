@@ -39,7 +39,7 @@
 	if ($auth == 1)
 	{
 		header("Location: ".$webp."/mail"); die;
-	}
+	}die;
 ?>
 
 <html>
