@@ -171,7 +171,10 @@ def pub_enc(pnt, aG, msg):
 	while (x < l):
 		b += str(random.randint(0, 9))
 		x += 1
+	
 	b = (int(b) % prime)
+	while (b < 3):
+		b += 1
 	
 	bG = point_mul(b, pnt, prime)
 	baG = point_mul(b, aG, prime)

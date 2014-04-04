@@ -182,7 +182,12 @@ function pub_enc(pnt, aG, msg)
 		b += Math.floor(Math.random() * 10).toString();
 	}
 	var pritmp = new BigInteger(b, 10);
+	
 	pritmp = pritmp.mod(prime);
+	while (pritmp.compareTo(three) < 0)
+	{
+		pritmp = pritmp.add(BigInteger.ONE);
+	}
 	
 	var bG = point_mul(pritmp, pnt, prime);
 	var baG = point_mul(pritmp, aG, prime);
