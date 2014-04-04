@@ -29,6 +29,10 @@
 				$subj = saferstr($_POST["subj"], " ~!@#%^&*-=+_<>[]{}();:,.?/`'\$\"\\");
 				$auma = trim(file_get_contents($mail."/"."server.auth"));
 				
+				$desc = ("\n".$_POST["mesg"]."\n");
+				$desc = str_replace("\r", "", $desc);
+				$desc = str_replace("\n.\n", "\n . \n", $desc);
+				
 				$dbeg = ("EHLO goodsir\n");
 				$dbeg .= ("AUTH PLAIN ".$auma."\n");
 				$dbeg .= ("MAIL FROM: ".$user."@".$name."\n");
@@ -62,7 +66,7 @@
 					$dmid .= ("\n");
 				}
 				
-				$dend = ($_POST["mesg"]."\n");
+				$dend = (trim($desc)."\n");
 				
 				$data = ($dbeg.$dmid.$dend.".\n"."QUIT\n");
 				socket_write($sock, $data, strlen($data));
