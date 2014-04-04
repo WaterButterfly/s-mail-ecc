@@ -95,21 +95,26 @@ function msgdec(mode)
 	if (i < mail.length)
 	{
 		var tmpivr = window.atob(mail[i][0]);
-		var tmplist = window.atob(mail[i][1]).split("\n\n");
-		tmplist[0] = tmplist[0].split("\n");
-		tmplist[0] = [new BigInteger(tmplist[0][0]), new BigInteger(tmplist[0][1])];
-		tmplist[1] = tmplist[1].split("\n");
-		tmplist[1] = [new BigInteger(tmplist[1][0]), new BigInteger(tmplist[1][1])];
-		var tmpkey = pri_dec(tmplist[0], tmplist[1], prikey);
+		var tmpklist = window.atob(mail[i][1]).split("\n\n");
+		tmpklist[0] = tmpklist[0].split("\n");
+		tmpklist[0] = [new BigInteger(tmpklist[0][0]), new BigInteger(tmpklist[0][1])];
+		tmpklist[1] = tmpklist[1].split("\n");
+		tmpklist[1] = [new BigInteger(tmpklist[1][0]), new BigInteger(tmpklist[1][1])];
+		var tmpkey = pri_dec(tmpklist[0], tmpklist[1], prikey);
 		var tmpmsg = window.atob(mail[i][2]);
 		
-		tmpmsg = aesdec(tmpivr, tmpkey, tmpmsg);console.log(tmpmsg);
+		tmpmsg = aesdec(tmpivr, tmpkey, tmpmsg);
 		
 		var seclist = mail[i][4].split(" ");
 		if (seclist.length > 2)
 		{
 			var smpivr = window.atob(seclist[1]);
-			var smpkey = window.atob(rdecpkey.decrypt(seclist[2]));
+			var smpklist = window.atob(seclist[2]).split("\n\n");
+			smpklist[0] = smpklist[0].split("\n");
+			smpklist[0] = [new BigInteger(smpklist[0][0]), new BigInteger(smpklist[0][1])];
+			smpklist[1] = smpklist[1].split("\n");
+			smpklist[1] = [new BigInteger(smpklist[1][0]), new BigInteger(smpklist[1][1])];
+			var smpkey = pri_dec(smpklist[0], smpklist[1], prikey);
 		}
 		
 		var newa = "<b>", newb = "</b>";

@@ -58,7 +58,7 @@
 <html>
 	<?php include($root."/html/head.html"); ?>
 	
-	<body onload="getkeyi(user, '#keyi'); rsapre(); rsadec('view');">
+	<body onload="getkeyi(user, '#keyi'); keypre(); msgdec('view');">
 		<?php include($root."/html/menu.html"); ?>
 		
 		<center>
