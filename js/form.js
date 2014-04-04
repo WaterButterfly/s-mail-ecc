@@ -85,7 +85,7 @@ function subsend()
 		var mmsg = mesg.substr(32).replace(/\n/g, "").hexTOstr();
 		jQuery('#mesg').val(window.btoa(mmsg));
 		
-		var sleft = new BigInteger("8", 10);
+		var sleft = new BigInteger("256", 10);
 		var keyl = new BigInteger("0", 10), keyr = new BigInteger("0", 10);
 		for (var y = 0; y < 16; ++y)
 		{

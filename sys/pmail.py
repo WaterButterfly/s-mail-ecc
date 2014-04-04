@@ -38,7 +38,7 @@ def main():
 	mailpath = "/opt/mail"
 	mailhost = "quickchatr.com"
 	
-	mailinfo = {"from":"", "to":[], "body":"", "subject":"", "emsg":[]}
+	mailinfo = {"from":"", "to":[], "body":"", "subject":"", "emsg":None}
 	dataflag = 0; datamark = ""; datastat = 0
 	
 	prestime = int(time.time())
@@ -61,21 +61,28 @@ def main():
 			
 			regxobjc = re.match("^subject: [ ]*(.+)$", templine, re.I)
 			if (regxobjc):
-				mailinfo["subject"] = str(regxobjc.group(1))
+				mailinfo["subject"] = str(regxobjc.group(1)).strip()
 			
 			regxobjc = re.match("^content-type: [ ]*.*boundary=([^ ;]+).*$", templine, re.I)
 			if (regxobjc):
 				datamark = str(regxobjc.group(1))
 			
-			regxobjc = re.match("^zsmsg-[^:]+: [ ]*(.+)$", templine, re.I)
+			regxobjc = re.match("^zsflag: [ ]*.*$", templine, re.I)
 			if (regxobjc):
-				mailinfo["emsg"].append(str(regxobjc.group(1)))
+				mailinfo["emsg"] = []
 			
 			if (templine == ""):
 				dataflag = 1
 		
 		else:
-			if (datamark == ""):
+			if ((mailinfo["emsg"] != None) and (not None in mailinfo["emsg"])):
+				regxobjc = re.match("^zsmsg-[^:]+: [ ]*(.+)$", templine, re.I)
+				if (regxobjc):
+					mailinfo["emsg"].append(str(regxobjc.group(1)).strip())
+				else:
+					mailinfo["emsg"].append(None)
+			
+			elif (datamark == ""):
 				mailinfo["body"] += lineread
 			
 			else:
@@ -93,9 +100,13 @@ def main():
 				elif (datastat == 2):
 					mailinfo["body"] += lineread
 	
-	mailinfo["date"] = str(prestime)
-	mailinfo["subject"] = base64.b64encode(mailinfo["subject"].strip())
-	mailinfo["body"] = base64.b64encode(mailinfo["body"].strip())
+	mailinfo["date"] = str(prestime).strip()
+	mailinfo["body"] = mailinfo["body"].strip()
+	
+	if (mailinfo["emsg"] == None):
+		mailinfo["emsg"] = []
+	if (None in mailinfo["emsg"]):
+		mailinfo["emsg"].remove(None)
 	
 	for maildest in mailinfo["to"]:
 		filepost = ""
@@ -163,9 +174,6 @@ def main():
 								pubkey = [int(pkeylist[1][0]), int(pkeylist[1][1])]
 								pubkencr = ec.pub_enc(point, pubkey, keysplit)
 								rsacenco = base64.b64encode("%s\n%s\n\n%s\n%s\n" % (pubkencr[0][0], pubkencr[0][1], pubkencr[1][0], pubkencr[1][1]))
-						
-						for c in ["\0", "\t", "\r", "\n", " "]:
-							rsacenco = rsacenco.replace(c, "")
 						
 						fileobjc.write(encrsivr + "\n" + rsacenco + "\n" + "\n".join(encrlist) + "\n" + encrflag + "\n")
 					

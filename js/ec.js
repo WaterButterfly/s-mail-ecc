@@ -176,13 +176,13 @@ function form_pub(pubstr)
 
 function pub_enc(pnt, aG, msg)
 {
-	var l = prime.toString(10).length, r = "";
+	var l = prime.toString(10).length, b = "";
 	for (var x = 0; x < l; ++x)
 	{
-		r += Math.floor(Math.random() * 10).toString();
+		b += Math.floor(Math.random() * 10).toString();
 	}
-	var pritmp = new BigInteger(r, 10);
-	var pritmp = pritmp.mod(prime);
+	var pritmp = new BigInteger(b, 10);
+	pritmp = pritmp.mod(prime);
 	
 	var bG = point_mul(pritmp, pnt, prime);
 	var baG = point_mul(pritmp, aG, prime);

@@ -132,7 +132,6 @@ function msgdec(mode)
 			
 			if (j == 4)
 			{
-				tmpinf[j] = window.atob(tmpinf[j].rstrTrim());
 				if (seclist.length > 2)
 				{
 					tmpinf[j] = window.atob(tmpinf[j].rstrTrim());
@@ -176,7 +175,6 @@ function msgdec(mode)
 			
 			tmpmsg = window.atob(mail[i][3]);
 			tmpmsg = aesdec(tmpivr, tmpkey, tmpmsg);
-			tmpmsg = window.atob(tmpmsg.rstrTrim());
 			if (seclist.length > 2)
 			{
 				tmpmsg = window.atob(tmpmsg.rstrTrim());

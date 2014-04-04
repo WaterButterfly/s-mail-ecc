@@ -29,17 +29,25 @@
 				$subj = saferstr($_POST["subj"], " ~!@#%^&*-=+_<>[]{}();:,.?/`'\$\"\\");
 				$auma = trim(file_get_contents($mail."/"."server.auth"));
 				
-				$data = "";
-				$data .= ("EHLO goodsir\n");
-				$data .= ("AUTH PLAIN ".$auma."\n");
-				$data .= ("MAIL FROM: ".$user."@".$name."\n");
+				$dbeg = ("EHLO goodsir\n");
+				$dbeg .= ("AUTH PLAIN ".$auma."\n");
+				$dbeg .= ("MAIL FROM: ".$user."@".$name."\n");
 				
 				foreach ($dlst as $item)
 				{
-					$data .= ("RCPT TO: ".$item."\n");
+					if (strpos($item, "@") !== false)
+					{
+						$dbeg .= ("RCPT TO: ".$item."\n");
+					}
 				}
 				
-				$data .= ("DATA\n");
+				$dbeg .= ("DATA\n");
+				
+				$dmid = ("Zsflag: true\n");
+				$dmid .= ("From: ".$user."@".$name."\n");
+				$dmid .= ("To: ".$dadr."\n");
+				$dmid .= ("Subject: ".$subj."\n");
+				$dmid .= ("\n");
 				
 				if ($_POST["type"] == "emsg")
 				{
@@ -48,21 +56,19 @@
 						$info = explode(" ", $item);
 						if (count($info) > 2)
 						{
-							$data .= ("Zsmsg-".$info[0].": ".$item."\n");
+							$dmid .= ("Zsmsg-".$info[0].": ".$item."\n");
 						}
 					}
+					$dmid .= ("\n");
 				}
 				
-				$data .= ("From: ".$user."@".$name."\n");
-				$data .= ("To: ".$dadr."\n");
-				$data .= ("Subject: ".$subj."\n");
-				$data .= ("\n");
-				$data .= ($_POST["mesg"]."\n");
-				$temp = ($data.".\n"."QUIT\n");
+				$dend = ($_POST["mesg"]."\n");
 				
-				socket_write($sock, $temp, strlen($temp));
+				$data = ($dbeg.$dmid.$dend.".\n"."QUIT\n");
+				socket_write($sock, $data, strlen($data));
 				socket_close($sock);
 				
+				$data = ($dmid.$dend);
 				$filedesc = array(0 => array("pipe", "r"), 1 => array("pipe", "w"), 2 => array("file", "/dev/null", "w"));
 				$fileproc = proc_open($post." sent", $filedesc, $filepipe, "/tmp", array());
 				if (is_resource($fileproc))
