@@ -43,7 +43,7 @@ function mailloop()
 			if ((nums.length > 1) && (nums[0] != "") && (nums[1] != ""))
 			{
 				jQuery('#numb').text(nums[0]);
-				var title = window.document.title;
+				var tpref = "", title = window.document.title;
 				if ((lastn == "") || (lastp == ""))
 				{
 					lastn = nums[0]; lastp = nums[1];
@@ -52,7 +52,8 @@ function mailloop()
 				{
 					window.location.href = (webp + "/mail/?b=" + mpage + "&p=" + npage);
 				}
-				window.document.title = ("(" + nums[0] + ") " + "S-Mail" + " [" + user +"]");
+				if ((nums[0] != "") && (nums[0] != "0")) { tpref = ("(" + nums[0] + ") "); }
+				window.document.title = (tpref + "S-Mail" + " [" + user +"]");
 			}
 		}
 	}
