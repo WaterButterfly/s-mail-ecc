@@ -222,10 +222,20 @@ function keygen()
 		}
 		prikey = new BigInteger(r, 10);
 		keyobj = new BigInteger(s, 10);
+		
 		prikey = prikey.mod(prime);
+		while (prikey.compareTo(three) < 0)
+		{
+			prikey = prikey.add(BigInteger.ONE);
+		}
 	}
 	
 	keyobj = keyobj.mod(prime);
+	while (keyobj.compareTo(three) < 0)
+	{
+		keyobj = keyobj.add(BigInteger.ONE);
+	}
+	
 	var pnt = [keyobj, curve_25519(keyobj, cnst, prime)];
 	//console.log("point:"+pnt[0].toString(10)+","+pnt[1].toString(10));
 	if (pnt[1] != -1)
