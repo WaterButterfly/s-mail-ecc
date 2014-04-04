@@ -154,3 +154,13 @@ function curve_25519(x, c, p)
 	var y2 = x.modPow(three, p).add(c.multiply(x.modPow(two, p))).add(x).mod(p);
 	return tonelli(y2, p);
 }
+
+function pri_dec(bG, mbaG, pkey)
+{
+	var abG = point_mul(pkey, bG, prime);
+	var keya = mbaG[0].divide(abG[0]).toString(16);
+	var keyb = mbaG[1].divide(abG[1]).toString(16);
+	while (keya.length < 64) { keya = ("0" + keya); }
+	while (keyb.length < 64) { keyb = ("0" + keyb); }
+	return (keya.hexTOstr() + keyb.hexTOstr());
+}

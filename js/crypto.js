@@ -87,24 +87,23 @@ function aesenc(iiv, ikey, imesg)
 	return outp;
 }
 
-var rdecindx = 0, rdecdata = "", rdecpkey = null;
+var rdecindx = 0, rdecdata = "";
 
-function rsadec(mode)
+function msgdec(mode)
 {
-	if (rdecpkey == null)
-	{
-		rdecpkey = new JSEncrypt();
-		rdecpkey.setPrivateKey(prikey);
-	}
-	
 	var i = rdecindx;
 	if (i < mail.length)
 	{
 		var tmpivr = window.atob(mail[i][0]);
-		var tmpkey = window.atob(rdecpkey.decrypt(mail[i][1]));
+		var tmplist = window.atob(mail[i][1]).split("\n\n");
+		tmplist[0] = tmplist[0].split("\n");
+		tmplist[0] = [new BigInteger(tmplist[0][0]), new BigInteger(tmplist[0][1])];
+		tmplist[1] = tmplist[1].split("\n");
+		tmplist[1] = [new BigInteger(tmplist[1][0]), new BigInteger(tmplist[1][1])];
+		var tmpkey = pri_dec(tmplist[0], tmplist[1], prikey);
 		var tmpmsg = window.atob(mail[i][2]);
 		
-		tmpmsg = aesdec(tmpivr, tmpkey, tmpmsg);
+		tmpmsg = aesdec(tmpivr, tmpkey, tmpmsg);console.log(tmpmsg);
 		
 		var seclist = mail[i][4].split(" ");
 		if (seclist.length > 2)
@@ -193,7 +192,7 @@ function rsadec(mode)
 		}
 		
 		rdecindx += 1;
-		setTimeout(function() { rsadec(mode); }, 0);
+		setTimeout(function() { msgdec(mode); }, 0);
 	}
 	
 	else
@@ -205,7 +204,7 @@ function rsadec(mode)
 	}
 }
 
-function rsapre()
+function keypre()
 {
 	var deckey = localStorage.getItem("encr");
 	var tmpivr = "", tmpkey = deckey.hexTOstr(), tmpmsg = enckey.hexTOstr();
@@ -214,6 +213,7 @@ function rsapre()
 	tmpmsg = tmpmsg.substr(16);
 	
 	prikey = aesdec(tmpivr, tmpkey, tmpmsg);
+	prikey = new BigInteger(prikey, 10);
 }
 
 function keygen()

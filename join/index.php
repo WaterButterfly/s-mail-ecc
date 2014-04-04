@@ -68,7 +68,6 @@
 	<body>
 		<?php include($root."/html/menu.html"); ?>
 		
-		 &nbsp; <br />
 		<center>
 			<form method="post" id="join" class="form-horizontal" role="form">
 			<table style="width: 512px;">

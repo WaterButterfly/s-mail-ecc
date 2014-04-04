@@ -147,17 +147,18 @@ def main():
 							encrlist.append(base64.b64encode(tempsmsg))
 						
 						encrsivr = base64.b64encode(encrsivr)
-						encrskey = base64.b64encode(encrskey)
+						rsacenco = ""
 						
-						pkeylist = base64.b64decode(userlist[2]).split("\n\n")
+						pkeylist = base64.b64decode(userlist[2]).replace("\r", "").split("\n\n")
 						if (len(pkeylist) > 1):
 							pkeylist[0] = pkeylist[0].split("\n")
 							pkeylist[1] = pkeylist[1].split("\n")
 							if ((len(pkeylist[0]) > 1) and (len(pkeylist[1]) > 1)):
-								keysplit = [0, 0]; s = 0
+								keysplit = [0, 0]; s = (128 - 8)
 								for x in range(0, 16):
-									keysplit[0] = (keysplit[0] | ( << s))
-									s += 8
+									keysplit[0] = (keysplit[0] | (ord(encrskey[x]) << s))
+									keysplit[1] = (keysplit[1] | (ord(encrskey[x+16]) << s))
+									s -= 8
 								point = [int(pkeylist[0][0]), int(pkeylist[0][1])]
 								pubkey = [int(pkeylist[1][0]), int(pkeylist[1][1])]
 								pubkencr = ec.pub_enc(point, pubkey, keysplit)

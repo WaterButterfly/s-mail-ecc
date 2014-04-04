@@ -75,7 +75,7 @@
 	
 	<?php include($root."/html/head.html"); ?>
 	
-	<body onload="getkeyi(user, '#keyi'); rsapre(); setTimeout(function() { rsadec('list'); }, 0); mailloop();">
+	<body onload="getkeyi(user, '#keyi'); keypre(); setTimeout(function() { msgdec('list'); }, 0); mailloop();">
 		<?php include($root."/html/menu.html"); ?>
 		
 		<center>

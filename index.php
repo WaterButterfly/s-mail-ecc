@@ -39,7 +39,7 @@
 	if ($auth == 1)
 	{
 		header("Location: ".$webp."/mail"); die;
-	}die;
+	}
 ?>
 
 <html>
@@ -52,7 +52,6 @@
 	<body onload="jQuery('#user').focus();">
 		<?php include($root."/html/menu.html"); ?>
 		
-		 &nbsp; <br />
 		<center>
 			<table style="width: 75%;">
 				<tr><td style="width: 13%; white-space: nowrap;"> &nbsp; </td><td style="white-space: nowrap;">
