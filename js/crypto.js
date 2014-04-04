@@ -95,26 +95,17 @@ function msgdec(mode)
 	if (i < mail.length)
 	{
 		var tmpivr = window.atob(mail[i][0]);
-		var tmpklist = window.atob(mail[i][1]).split("\n\n");
-		tmpklist[0] = tmpklist[0].split("\n");
-		tmpklist[0] = [new BigInteger(tmpklist[0][0]), new BigInteger(tmpklist[0][1])];
-		tmpklist[1] = tmpklist[1].split("\n");
-		tmpklist[1] = [new BigInteger(tmpklist[1][0]), new BigInteger(tmpklist[1][1])];
-		var tmpkey = pri_dec(tmpklist[0], tmpklist[1], prikey);
+		var tmpkey = form_pub(window.atob(mail[i][1]));
+		tmpkey = pri_dec(tmpkey[0], tmpkey[1], prikey);
 		var tmpmsg = window.atob(mail[i][2]);
-		
 		tmpmsg = aesdec(tmpivr, tmpkey, tmpmsg);
 		
 		var seclist = mail[i][4].split(" ");
 		if (seclist.length > 2)
 		{
 			var smpivr = window.atob(seclist[1]);
-			var smpklist = window.atob(seclist[2]).split("\n\n");
-			smpklist[0] = smpklist[0].split("\n");
-			smpklist[0] = [new BigInteger(smpklist[0][0]), new BigInteger(smpklist[0][1])];
-			smpklist[1] = smpklist[1].split("\n");
-			smpklist[1] = [new BigInteger(smpklist[1][0]), new BigInteger(smpklist[1][1])];
-			var smpkey = pri_dec(smpklist[0], smpklist[1], prikey);
+			var smpkey = form_pub(window.atob(seclist[2]));
+			smpkey = pri_dec(smpkey[0], smpkey[1], prikey);
 		}
 		
 		var newa = "<b>", newb = "</b>";

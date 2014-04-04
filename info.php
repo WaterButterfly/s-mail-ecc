@@ -14,11 +14,13 @@
 				$data = file_get_contents($mail."/".$user."/".$user.".auth");
 			}
 			$list = explode("\n", $data);
+			
 			$pkey = "";
 			if (count($list) > 3)
 			{
 				$pkey = base64_decode($list[2]);
 			}
+			$pkey = str_replace("\r", "", $pkey);
 			
 			if ($_GET["mode"] == "pub")
 			{

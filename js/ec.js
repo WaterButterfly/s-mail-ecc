@@ -155,6 +155,44 @@ function curve_25519(x, c, p)
 	return tonelli(y2, p);
 }
 
+function form_pub(pubstr)
+{
+	var tmplst = pubstr.split("\n\n");
+	if (tmplst.length < 2)
+	{
+		tmplst = ["", ""];
+	}
+	tmplst[0] = tmplst[0].split("\n");
+	tmplst[1] = tmplst[1].split("\n");
+	if ((tmplst[0].length < 2) || (tmplst[1].length < 2))
+	{
+		tmplst[0] = ["2", "3"];
+		tmplst[1] = ["3", "4"];
+	}
+	tmplst[0] = [new BigInteger(tmplst[0][0], 10), new BigInteger(tmplst[0][1], 10)];
+	tmplst[1] = [new BigInteger(tmplst[1][0], 10), new BigInteger(tmplst[1][1], 10)];
+	return tmplst;
+}
+
+function pub_enc(pnt, aG, msg)
+{
+	var l = prime.toString(10).length, r = "";
+	for (var x = 0; x < l; ++x)
+	{
+		r += Math.floor(Math.random() * 10).toString();
+	}
+	var pritmp = new BigInteger(r, 10);
+	var pritmp = pritmp.mod(prime);
+	
+	var bG = point_mul(pritmp, pnt, prime);
+	var baG = point_mul(pritmp, aG, prime);
+	
+	var mbaG = [msg[0].multiply(baG[0]), msg[1].multiply(baG[1])];
+	var outp = (bG[0].toString(10) + "\n" + bG[1].toString(10) + "\n\n" + mbaG[0].toString(10) + "\n" + mbaG[1].toString(10));
+	
+	return window.btoa(outp);
+}
+
 function pri_dec(bG, mbaG, pkey)
 {
 	var abG = point_mul(pkey, bG, prime);

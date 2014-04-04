@@ -87,7 +87,7 @@
 		
 		<table style="width: 100%;">
 			<tr>
-				<td style="vertical-align: top; padding-left: 5px; padding-right: 5px;"><span id="pkeys"><center> &nbsp; <br />Enter a "To" Address &nbsp; <span class="glyphicon glyphicon-arrow-right" style="top: 2px;"></span></center></span></td>
+				<td style="white-space: nowrap; vertical-align: top; padding-left: 5px; padding-right: 5px;"><span id="pkeys"><center> &nbsp; <br />Enter a "To" Address &nbsp; <span class="glyphicon glyphicon-arrow-right" style="top: 2px;"></span></center></span></td>
 				
 				<td style="width: 80%; padding-right: 5px;">
 					<form id="send" method="post" class="form-horizontal" role="form">

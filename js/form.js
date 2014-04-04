@@ -27,9 +27,9 @@ function procdest(e)
 	else { var ehint = hint(e, jQuery('#dest').val()); }
 	if (ehint != "")
 	{
-		jQuery('#dest').val(jQuery('#dest').val().replace(/@*$/, "") + "@" + dnsn + ",");
+		jQuery('#dest').val(jQuery('#dest').val().replace(/@*$/, "") + "@" + dnsn + ", ");
 	}
-	var emails = jQuery('#dest').val().replace(/[,;]/g, " ").split(" ");console.log(JSON.stringify(emails));
+	var emails = jQuery('#dest').val().replace(/[,;]/g, " ").split(" ");
 	var regx = new RegExp("^(.*)@" + dnsn + "$", "i");
 	for (var i in emails)
 	{
@@ -85,16 +85,27 @@ function subsend()
 		var mmsg = mesg.substr(32).replace(/\n/g, "").hexTOstr();
 		jQuery('#mesg').val(window.btoa(mmsg));
 		
-		var eivr = window.btoa(iv), hkey = window.btoa(key);
-		var eout = "";
+		var sleft = new BigInteger("8", 10);
+		var keyl = new BigInteger("0", 10), keyr = new BigInteger("0", 10);
+		for (var y = 0; y < 16; ++y)
+		{
+			var ktmpl = new BigInteger(""+key.charCodeAt(y)+"", 10);
+			var ktmpr = new BigInteger(""+key.charCodeAt(y+16)+"", 10);
+			keyl = keyl.multiply(sleft).add(ktmpl);
+			keyr = keyr.multiply(sleft).add(ktmpr);
+		}
+		
 		emails.push(user + "@" + dnsn);
+		
+		var eout = "", eivr = window.btoa(iv);
 		for (var i in emails)
 		{
 			var mach = emails[i].match(regx);
 			if (!mach) { continue; }
-			var rsatmp = new JSEncrypt();
-			rsatmp.setPublicKey(pkeys[mach[1]]);
-			var bkey = rsatmp.encrypt(hkey);
+			
+			var plist = form_pub(pkeys[mach[1]]);
+			var bkey = pub_enc(plist[0], plist[1], [keyl, keyr]);
+			
 			eout += (mach[1] + " " + eivr + " " + bkey + ",");
 		}
 		jQuery('#ekey').val(eout);

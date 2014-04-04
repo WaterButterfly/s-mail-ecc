@@ -4,7 +4,7 @@ function getkeyi(user, dest)
 	if (user in skeys)
 	{
 		jQuery(dest+'n').text("["+user+"]");
-		jQuery(dest).html(skeys[user].replace(/\n/g, "<br/>"));
+		jQuery(dest).html(skeys[user]);
 		return 0;
 	}
 	var ajax = new XMLHttpRequest();
@@ -12,13 +12,16 @@ function getkeyi(user, dest)
 		if ((ajax.readyState == 4) && (ajax.status == 200))
 		{
 			var keyi = ajax.responseText.split("\n\n");
-			if ((keyi.length > 1) && (keyi[0] != "") && (keyi[1] != ""))
+			if ((keyi.length > 2) && (keyi[0] != "") && (keyi[1] != "") && (keyi[2] != ""))
 			{
-				skeys[user] = keyi[0];
-				pkeys[user] = keyi[1];
+				skeys[user] = "";
+				var l = keyi[0].split("\n");
+				for (var i in l) { skeys[user] += (l[i] + "<br/>"); }
+				
+				pkeys[user] = (keyi[1] + "\n\n" + keyi[2]);
 				
 				jQuery(dest+'n').text("["+user+"]");
-				jQuery(dest).html(skeys[user].replace(/\n/g, "<br/>"));
+				jQuery(dest).html(skeys[user]);
 				
 				if (dest == "#keyf") { procdest({'keyCode':21}); }
 			}
