@@ -46,15 +46,13 @@ function mailloop()
 				var title = window.document.title;
 				if ((lastn == "") || (lastp == ""))
 				{
-					lastn = nums[0];
-					lastp = nums[1];
+					lastn = nums[0]; lastp = nums[1];
 				}
-				else
+				if ((lastn != nums[0]) || (lastp != nums[1]))
 				{
-					title = title.replace(/^[^ ]+ /i, "");
+					window.location.href = (webp + "/mail/?b=" + mpage + "&p=" + npage);
 				}
-				if ((lastn != nums[0]) || (lastp != nums[1])) { window.location.href = (webp + "/mail/?b=" + mpage + "&p=" + npage); }
-				window.document.title = ("(" + nums[0] + ") " + title);
+				window.document.title = ("(" + nums[0] + ") " + "S-Mail" + " [" + user +"]");
 			}
 		}
 	}
