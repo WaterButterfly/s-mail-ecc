@@ -40,9 +40,12 @@ pwcheck_method: saslauthd
 mech_list: PLAIN LOGIN
 
 
-mkdir -p /opt/mail
-chown -R www-data:nogroup /opt/mail
-chmod -R 6770 /opt/mail
+printf "\0postauth\0$p" | base64 > /opt/mail/server.auth
+
+
+mkdir -p /opt/mail /opt/data
+chown -R www-data:nogroup /opt/mail /opt/data
+chmod -R 6770 /opt/mail /opt/data
 
 
 crontab -e
@@ -66,15 +69,19 @@ base-64-e(iv)
 base-64-e(rsa-pub-e(base-64-e(key)))
 base-64-e(aes-cbc-e(iv, key, email-headers))
 base-64-e(aes-cbc-e(iv, key, email-message))
+plain/secure ...
+file ...
 
 
-> secure.email
+> plain.email(secure.email)
 header-Zsmsg-User: User + " " + base-64-e(iv) + " " + base-64-e(rsa-pub-e(base-64-e(key)))
 header-Subject: base-64-e(aes-cbc-e(iv, key, subject))
 data-Message: base-64-e(aes-cbc-e(iv, key, message))
 
 
-printf "\0postauth\0$p" | base64 > /opt/mail/server.auth
+> attachment
+filename
+aes-cbc-e(iv, key, base-64-e(filedata))
 
 
 */
