@@ -14,7 +14,6 @@ import Crypto
 import Crypto.Random
 import Crypto.Cipher
 import Crypto.Cipher.AES
-import M2Crypto
 
 import ec
 
@@ -47,6 +46,8 @@ def main():
 	attalist = []; attaobjc = None
 	
 	prestime = int(time.time())
+	encrsivr = Crypto.Random.new().read(16)
+	encrskey = Crypto.Random.new().read(32)
 	
 	for lineread in sys.stdin:
 		templine = lineread.strip()
@@ -140,7 +141,15 @@ def main():
 						break
 					
 					elif (markflag == 5):
-						attaobjc.write(lineread)
+						tempdata = ("" + lineread + "")
+						while ((len(tempdata) % 16) != 0):
+							tempdata += chr(0)
+						
+						tempsivr = ("" + encrsivr + ""); tempskey = ("" + encrskey + "")
+						encrsobj = Crypto.Cipher.AES.new(tempskey, Crypto.Cipher.AES.MODE_CBC, tempsivr)
+						tempsmsg = encrsobj.encrypt(tempdata)
+						
+						attaobjc.write(tempsmsg)
 						break
 	
 	mailinfo["date"] = str(prestime).strip()
@@ -189,9 +198,6 @@ def main():
 							ekeylist = ekeyitem.split(" ")
 							if ((len(ekeylist) > 2) and (ekeylist[0] == mailinfo["name"])):
 								encrflag = ("secure %s %s" % (ekeylist[1], ekeylist[2]))
-						
-						encrsivr = Crypto.Random.new().read(16)
-						encrskey = Crypto.Random.new().read(32)
 						
 						encrlist = []
 						for mailitem in maildata:
