@@ -111,7 +111,7 @@
 					</th></tr>
 					<tr><th colspan="6" style="border: 0px;"> &nbsp; </th></tr>
 					<tr>
-						<th class="colmin" style="border-top: 0px; padding-bottom: 6px;"><input type="checkbox" style="margin-top: 0px; margin-bottom: 4px;" /></th>
+						<th class="colmin" style="border-top: 0px; padding-bottom: 6px;"><input type="checkbox" style="margin-top: 0px; margin-bottom: 4px;" onclick="jQuery('*').find(':checkbox').prop('checked', jQuery(this).prop('checked'));" /></th>
 						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><span class="glyphicon glyphicon-file"></span></th>
 						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><img src="<?php print($webp); ?>/img/lock.png" /></th>
 						<th class="colmin" style="border-top: 0px;">Date</th>
