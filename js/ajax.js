@@ -50,24 +50,22 @@ function mailloop()
 				}
 				if ((lastn != nums[0]) || (lastp != nums[1]))
 				{
-					window.location.href = (webp + "/mail/?b=" + mpage + "&p=" + npage);
+					window.location.href = surls;
 				}
 				if ((nums[0] != "") && (nums[0] != "0")) { tpref = ("(" + nums[0] + ") "); }
 				window.document.title = (tpref + "S-Mail" + " [" + user +"]");
 			}
 		}
 	}
-	ajax.open("GET", webp + "/mail/?b="+mpage+"&u=1", true);
+	ajax.open("GET", webp + "/mail/?b=inbox&u=1", true);
 	ajax.send();
 	setTimeout("mailloop();", 10 * 1000);
 }
 
-function markread(mesgname)
+function markmail(mesgname, mesgstat)
 {
 	var ajax = new XMLHttpRequest();
-	ajax.onreadystatechange = function() {
-		/* no-op */
-	}
-	ajax.open("GET", webp + "/view/?e="+mesgname+"&m=true", true);
+	ajax.onreadystatechange = function() { /* no-op */ }
+	ajax.open("GET", webp + "/view/?e="+mesgname+"&"+mesgstat+"=true", true);
 	ajax.send();
 }

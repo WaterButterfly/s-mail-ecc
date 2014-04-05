@@ -140,7 +140,7 @@ function msgdec(mode)
 			{
 				if (j == 3) { tmpinf[3] = (tmpinf[3].substr(0, 24) + "..."); }
 				var t = "";
-				t += ("<td "+tagc+" style='"+style+wide+"'>");
+				t += ("<td "+tagc+" style='cursor: pointer; "+style+wide+"' onclick='window.location.href = \""+webp+"/view/?e="+mail[i][5]+"&m=read\"'>");
 				t += (taga+newa);
 				t += (tmpinf[j]);
 				t += (newb+tagb);
@@ -151,18 +151,20 @@ function msgdec(mode)
 		
 		if (mode == "list")
 		{
-			var cola = ("<td class='colmin'><input type='checkbox' name='"+mail[i][5]+"' /></td>");
+			var cola = ("<td class='colmin'><input type='checkbox' name='chkmail' id='"+mail[i][5]+"' /></td>");
+			var coln = ("<td class='colmin'><span>&nbsp;</span></td>");
 			var colb = ("<td class='colmin'><span>&nbsp;</span></td>");
 			var colc = ("<td class='colmin'><span>&nbsp;</span></td>");
 			var colt = mail[i][6].split(" ");
+			if (newa != "") { coln = ("<td class='colmin'><span class='glyphicon glyphicon-certificate txtgreen' style='top: 2px;'></span></td>"); }
 			if ((colt.length > 1) && (colt[1] != "")) { colb = ("<td class='colmin'><span class='glyphicon glyphicon-file txtred' style='top: 2px;'></span></td>"); }
 			if (seclist.length > 2) { colc = ("<td class='colmin'><img src='"+webp+"/img/lock.png' /></td>"); }
 			
 			var cold = tmpinf[2];
 			if (view == "o") { cold = tmpinf[3]; }
 			
-			rdecdata += ("<tr style='cursor: pointer;' onclick='window.location.href = \""+webp+"/view/?e="+mail[i][5]+"&m=read\"'>"+cola+colb+colc+tmpinf[1]+cold+tmpinf[4]+"</tr>\n");
-			if (i == 0) { jQuery('#mail').html("<tr><td colspan='6'><center>Loading... <img src='"+webp+"/img/load.gif' /></center></td></tr>"); }
+			rdecdata += ("<tr>"+cola+coln+colb+colc+tmpinf[1]+cold+tmpinf[4]+"</tr>\n");
+			if (i == 0) { jQuery('#mail').html("<tr><td colspan='7'><center>Loading... <img src='"+webp+"/img/load.gif' /></center></td></tr>"); }
 		}
 		
 		if (mode == "view")

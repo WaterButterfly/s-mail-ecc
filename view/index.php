@@ -71,14 +71,12 @@
 							<th style="text-align: right; width: 30%;">
 								<a href="<?php print($webp); ?>/make/?e=" class="txtgreen">Compose</a>
 								 &nbsp; 
-								<select>
-									<option ondo="javascript:markread('<?php print($file); ?>');">Mark Read</option>
-									<option ondo="javascript:markread('<?php print($file); ?>');">Mark New</option>
-									<option>Delete</option>
-									<option>Restore</option>
+								<select id="mailmark">
+									<option name="m" id="<?php print($file); ?>">Mark Read / Unread</option>
+									<option name="d" id="<?php print($file); ?>">Delete / Restore</option>
 								</select>
 								 &nbsp; 
-								<button type="button" class="btn btn-sm btn-success">Go</button>
+								<button type="button" class="btn btn-sm btn-success" onclick="markmail(jQuery('#mailmark').find(':selected').attr('id'), jQuery('#mailmark').find(':selected').attr('name')); window.history.back();">Go</button>
 							</th>
 						</tr></table>
 					</th></tr>
