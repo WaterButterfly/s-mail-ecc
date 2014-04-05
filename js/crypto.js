@@ -157,7 +157,7 @@ function msgdec(mode)
 			var colc = ("<td class='colmin'><span>&nbsp;</span></td>");
 			var colt = mail[i][6].split(" ");
 			if (newa != "") { coln = ("<td class='colmin'><span class='glyphicon glyphicon-certificate txtgreen' style='top: 2px;'></span></td>"); }
-			if ((colt.length > 1) && (colt[1] != "")) { colb = ("<td class='colmin'><span class='glyphicon glyphicon-file txtred' style='top: 2px;'></span></td>"); }
+			if (colt.length > 1) { colb = ("<td class='colmin'><span class='glyphicon glyphicon-file txtred' style='top: 2px;'></span></td>"); }
 			if (seclist.length > 2) { colc = ("<td class='colmin'><img src='"+webp+"/img/lock.png' /></td>"); }
 			
 			var cold = tmpinf[2];
@@ -176,6 +176,17 @@ function msgdec(mode)
 			jQuery('#date').text(tmpinf[1]);
 			jQuery('#from').html("<a href='"+webp+"/make/?e="+tmpinf[2]+"'>"+tmpinf[2]+"</a>");
 			jQuery('#dest').text(tmpinf[3]);
+			
+			var rlist = mail[i][6].split(" "), flist = fnames.split(" ");
+			for (var j in rlist)
+			{
+				if (j > 0)
+				{
+					jQuery('#attach').append("<a href='"+webp+"/download/?a="+rlist[j]+"&k="+window.btoa(tmpkey)+"'><span class='glyphicon glyphicon-file'></span> <span id='attach"+j+"'></span></a> &nbsp; &nbsp; ");
+					jQuery('#attach'+j).text(window.atob(flist[j]));
+				}
+			}
+			
 			jQuery('#subj').text(tmpinf[4]);
 			
 			tmpmsg = window.atob(mail[i][3]);

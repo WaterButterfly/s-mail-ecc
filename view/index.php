@@ -24,6 +24,7 @@
 	$file = preg_replace("/\.read$/i", "", $file);
 	
 	$emails = scandir($udir);
+	$fnames = "files ";
 	foreach ($emails as $email)
 	{
 		if (($email == ".") || ($email == "..")) { continue; }
@@ -47,7 +48,15 @@
 			$list = explode("\n", $data);
 			if (count($list) > 5)
 			{
-				$smails = ("['".$list[0]."', '".$list[1]."', '".$list[2]."', '".$list[3]."', '".$list[4]."', '', '".$list[5]."']");
+				$smails = ("['".$list[0]."', '".$list[1]."', '".$list[2]."', '".$list[3]."', '".trim($list[4])."', '.filename.', '".trim($list[5])."']");
+				$files = explode(" ", trim($list[5]));
+				foreach ($files as $attach)
+				{
+					if (file_exists($atch."/".$attach))
+					{
+						$f = fopen($atch."/".$attach, "r"); $fnames .= (base64_encode(fgets($f))." "); fclose($f);
+					}
+				}
 			}
 			
 			break;
@@ -56,6 +65,10 @@
 ?>
 
 <html>
+	<script>
+		var fnames = "<?php print($fnames); ?>";
+	</script>
+	
 	<?php include($root."/html/head.html"); ?>
 	
 	<body onload="getkeyi(user, '#keyi'); keypre(); msgdec('view');">
@@ -64,7 +77,7 @@
 		<center>
 			<div class="divtable" style="width: 85% !important;"><table class="table table-condensed" style="color: #333;">
 				<thead>
-					<tr><th colspan="4" style="border: 0px;">
+					<tr><th colspan="2" style="border: 0px;">
 						<table style="width: 100%; color: #333;"><tr>
 							<th style="text-align: left; width: 30%;"><a href="javascript:window.history.back();" class="txtgreen"><span class="glyphicon glyphicon-circle-arrow-left" style="top: 2px;"></span> Back</a></th>
 							<th style="text-align: center;">Message for &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i></th>
@@ -80,7 +93,7 @@
 							</th>
 						</tr></table>
 					</th></tr>
-					<tr><th colspan="4" style="text-align: center; border: 0px;">
+					<tr><th colspan="2" style="text-align: center; border: 0px;">
 						<a href="javascript:window.location.href = '<?php print($webp); ?>/make/?e=' + jQuery('#from').text();">Reply</a>
 						 &nbsp; 
 						<a href="javascript:window.location.href = '<?php print($webp); ?>/make/?e=' + jQuery('#from').text().replace(user + '@' + dnsn, '') + ',' + jQuery('#dest').text().replace(user + '@' + dnsn, '');">Reply All</a>
@@ -89,14 +102,14 @@
 					</th></tr>
 				</thead>
 				<tbody id="mail">
-					<tr><td colspan="4" style="border: 0px;"> &nbsp; </td></tr>
 					<tr><td style="width: 0px; white-space: nowrap; text-align: right; border: 0px;"><b><span>Date:</span></b></td><td style="width: 100%; text-align: left; border: 0px;"><span id="date"> &nbsp; </span></td></tr>
 					<tr><td style="width: 0px; white-space: nowrap; text-align: right; border: 0px;"><b><span>From:</span></b></td><td style="width: 100%; text-align: left; border: 0px;"><span id="from"> &nbsp; </span></td></tr>
 					<tr><td style="width: 0px; white-space: nowrap; text-align: right; border: 0px;"><b><span>To:</span></b></td><td style="width: 100%; text-align: left; border: 0px;"><span id="dest"> &nbsp; </span></td></tr>
-					<tr><td colspan="4" style="border: 0px;"> &nbsp; </td></tr>
-					<tr><td colspan="4" style="border: 0px;"><b><span id="subj"> &nbsp; </span></b></td></tr>
-					<tr><td colspan="4" style="border: 0px;"> &nbsp; </td></tr>
-					<tr><td colspan="4" style="border: 0px;"><span id="mesg"> &nbsp; </span></td></tr>
+					<tr><td style="border: 0px;"> &nbsp; </td><td style="width: 100%; text-align: left; border: 0px;" id="attach"></td></tr>
+					<tr><td colspan="2" style="border: 0px;"> &nbsp; </td></tr>
+					<tr><td colspan="2" style="border: 0px;"><b><span id="subj"> &nbsp; </span></b></td></tr>
+					<tr><td colspan="2" style="border: 0px;"> &nbsp; </td></tr>
+					<tr><td colspan="2" style="border: 0px;"><span id="mesg"> &nbsp; </span></td></tr>
 				</tbody>
 			</table></div>
 		</center>

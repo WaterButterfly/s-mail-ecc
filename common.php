@@ -7,6 +7,7 @@
 	$hpag = array("", "", "", "", "");
 	
 	$webp = "/s-mail";
+	$atch = "/opt/data";
 	$mail = "/opt/mail";
 	$perm = "/var/www/s-mail/sys/pperm.py";
 	$post = "/var/www/s-mail/sys/pmail.py";

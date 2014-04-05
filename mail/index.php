@@ -50,7 +50,7 @@
 			if (count($list) > 5)
 			{
 				if ($smails != "") { $smails .= ",\n"; }
-				$smails .= "['".$list[0]."', '".$list[1]."', '".$list[2]."', '', '".$list[4]."', '".$email."', '".$list[5]."']";
+				$smails .= "['".$list[0]."', '".$list[1]."', '".$list[2]."', '', '".trim($list[4])."', '".$email."', '".trim($list[5])."']";
 			}
 		}
 		$i += 1;
@@ -66,7 +66,7 @@
 			if (count($list) > 5)
 			{
 				if ($smails != "") { $smails .= ",\n"; }
-				$smails .= "['".$list[0]."', '".$list[1]."', '".$list[2]."', '', '".$list[4]."', '".$read[$x]."', '".$list[5]."']";
+				$smails .= "['".$list[0]."', '".$list[1]."', '".$list[2]."', '', '".trim($list[4])."', '".$read[$x]."', '".trim($list[5])."']";
 			}
 			$i += 1; $x += 1;
 		}
