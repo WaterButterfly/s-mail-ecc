@@ -78,7 +78,7 @@
 									<option>Restore</option>
 								</select>
 								 &nbsp; 
-								<button type="button" class="btn btn-sm btn-primary">Go</button>
+								<button type="button" class="btn btn-sm btn-success">Go</button>
 							</th>
 						</tr></table>
 					</th></tr>

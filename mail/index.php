@@ -60,10 +60,10 @@
 	if ($mpage == "trash") { $mode = "d"; }
 	
 	$pnums = (intval($i / $l) + 1);
-	$apage = (" <a href='".$webp."/mail/?b=".$mpage."&p=1'><span class='glyphicon glyphicon-chevron-left' style='top: 2px;'></span></a> ");
-	$bpage = (" <a href='".$webp."/mail/?b=".$mpage."&p=".$pnums."'><span class='glyphicon glyphicon-chevron-right' style='top: 2px;'></span></a> ");
-	if ($npage > 1) { $apage = ($apage." <a href='".$webp."/mail/?b=".$mpage."&p=".($npage - 1)."'><span class='glyphicon glyphicon-circle-arrow-left' style='top: 2px;'></span></a> "); }
-	if ($npage < $pnums) { $bpage = (" <a href='".$webp."/mail/?b=".$mpage."&p=".($npage + 1)."'><span class='glyphicon glyphicon-circle-arrow-right' style='top: 2px;'></span></a> ".$bpage); }
+	$apage = (" <a href='".$webp."/mail/?b=".$mpage."&p=1'><span class='glyphicon glyphicon-chevron-left txtgreen' style='top: 2px;'></span></a> ");
+	$bpage = (" <a href='".$webp."/mail/?b=".$mpage."&p=".$pnums."'><span class='glyphicon glyphicon-chevron-right txtgreen' style='top: 2px;'></span></a> ");
+	if ($npage > 1) { $apage = ($apage." <a href='".$webp."/mail/?b=".$mpage."&p=".($npage - 1)."'><span class='glyphicon glyphicon-circle-arrow-left txtgreen' style='top: 2px;'></span></a> "); }
+	if ($npage < $pnums) { $bpage = (" <a href='".$webp."/mail/?b=".$mpage."&p=".($npage + 1)."'><span class='glyphicon glyphicon-circle-arrow-right txtgreen' style='top: 2px;'></span></a> ".$bpage); }
 ?>
 
 <html>
@@ -95,7 +95,7 @@
 									<option>Restore</option>
 								</select>
 								 &nbsp; 
-								<button type="button" class="btn btn-sm btn-primary">Go</button>
+								<button type="button" class="btn btn-sm btn-success">Go</button>
 							</th>
 						</tr></table>
 					</th></tr>
