@@ -66,16 +66,6 @@ function aesenc(iiv, ikey, imesg)
 		AES_Encrypt(block, key);
 		AES_Done();
 		
-		if (outp == "")
-		{
-			for (var y = 0; y < 16; ++y)
-			{
-				if (iv[y] < 0x10) { outp += "0"; }
-				outp += iv[y].toString(16);
-			}
-			outp += "\n";
-		}
-		
 		for (var y = 0; y < 16; ++y)
 		{
 			if (block[y] < 0x10) { outp += "0"; }
@@ -84,7 +74,7 @@ function aesenc(iiv, ikey, imesg)
 		}
 		outp += "\n";
 	}
-	return outp;
+	return (iiv.strTOhex() + "\n" + outp);
 }
 
 var rdecindx = 0, rdecdata = "";
@@ -182,7 +172,7 @@ function msgdec(mode)
 			{
 				if (j > 0)
 				{
-					jQuery('#attach').append("<a href='"+webp+"/download/?a="+rlist[j]+"&k="+window.btoa(tmpkey)+"'><span class='glyphicon glyphicon-file'></span> <span id='attach"+j+"'></span></a> &nbsp; &nbsp; ");
+					jQuery('#attach').append("<a href='"+webp+"/download/?i="+tmpivr.strTOhex()+"&k="+tmpkey.strTOhex()+"&a="+rlist[j]+"'><span class='glyphicon glyphicon-file'></span> <span id='attach"+j+"'></span></a> &nbsp; &nbsp; ");
 					jQuery('#attach'+j).text(window.atob(flist[j]));
 				}
 			}

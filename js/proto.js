@@ -29,6 +29,16 @@ String.prototype.hexTOstr = function() {
 	return o;
 }
 
+String.prototype.strTOhex = function() {
+	var o = "", l = this.length;
+	for (var x = 0; x < l; ++x)
+	{
+		if (this.charCodeAt(x) < 0x10) { o += "0"; }
+		o += this.charCodeAt(x).toString(16);
+	}
+	return o;
+}
+
 String.prototype.rstrTrim = function() {
 	var s = this, l = this.length;
 	while ((l > 0) && (s.charCodeAt(l - 1) < 32))
