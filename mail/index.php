@@ -84,7 +84,7 @@
 					<tr><th colspan="6" style="border: 0px;">
 						<table style="width: 100%; color: #333;"><tr>
 							<th style="text-align: left; width: 30%;"><?php print($apage.$npage." / ".$pnums.$bpage); ?></th>
-							<th style="text-align: center;">Mail for &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i> &nbsp; &nbsp; <span class="label label-danger" style="padding-top: 4px; padding-bottom: 3px;" id="numb">0</span></th>
+							<th style="text-align: center;">Mail for &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i> &nbsp; &nbsp; <span class="label label-success" style="padding-top: 4px; padding-bottom: 3px;" id="numb">0</span></th>
 							<th style="text-align: right; width: 30%;">
 								<a href="<?php print($webp); ?>/make/?e=" class="txtgreen">Compose</a>
 								 &nbsp; 
@@ -112,7 +112,7 @@
 					<tr><th colspan="6" style="border: 0px;"> &nbsp; </th></tr>
 					<tr>
 						<th class="colmin" style="border-top: 0px; padding-bottom: 6px;"><input type="checkbox" style="margin-top: 0px; margin-bottom: 4px;" onclick="jQuery('*').find(':checkbox').prop('checked', jQuery(this).prop('checked'));" /></th>
-						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><span class="glyphicon glyphicon-file"></span></th>
+						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><span class="glyphicon glyphicon-file txtred"></span></th>
 						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><img src="<?php print($webp); ?>/img/lock.png" /></th>
 						<th class="colmin" style="border-top: 0px;">Date</th>
 						<th class="colmin" style="border-top: 0px;"><?php print($head); ?></th>

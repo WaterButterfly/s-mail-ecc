@@ -155,7 +155,7 @@ function msgdec(mode)
 			var colb = ("<td class='colmin'><span>&nbsp;</span></td>");
 			var colc = ("<td class='colmin'><span>&nbsp;</span></td>");
 			var colt = mail[i][6].split(" ");
-			if ((colt.length > 1) && (colt[1] != "")) { colb = ("<td class='colmin'><span class='glyphicon glyphicon-file' style='top: 2px;'></span></td>"); }
+			if ((colt.length > 1) && (colt[1] != "")) { colb = ("<td class='colmin'><span class='glyphicon glyphicon-file txtred' style='top: 2px;'></span></td>"); }
 			if (seclist.length > 2) { colc = ("<td class='colmin'><img src='"+webp+"/img/lock.png' /></td>"); }
 			
 			var cold = tmpinf[2];
