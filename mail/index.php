@@ -109,7 +109,7 @@
 		<?php include($root."/html/menu.html"); ?>
 		
 		<center>
-			<div class="divtable" style="width: 85% !important;"><table class="table table-condensed table-striped" style="color: #333;">
+			<div class="divtable" style="width: 85% !important;"><table class="table table-condensed table-striped table-hover" style="color: #333;">
 				<thead>
 					<tr><th colspan="7" style="border: 0px;">
 						<table style="width: 100%; color: #333;"><tr>
