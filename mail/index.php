@@ -34,10 +34,10 @@
 		{
 			$data = file_get_contents($udir."/".$email);
 			$list = explode("\n", $data);
-			if (count($list) > 4)
+			if (count($list) > 5)
 			{
 				if ($smails != "") { $smails .= ",\n"; }
-				$smails .= "['".$list[0]."', '".$list[1]."', '".$list[2]."', '', '".$list[4]."', '".$email."']";
+				$smails .= "['".$list[0]."', '".$list[1]."', '".$list[2]."', '', '".$list[4]."', '".$email."', '".$list[5]."']";
 			}
 		}
 		$i += 1;
@@ -81,7 +81,7 @@
 		<center>
 			<div class="divtable" style="width: 85% !important;"><table class="table table-condensed table-striped" style="color: #333;">
 				<thead>
-					<tr><th colspan="4" style="border: 0px;">
+					<tr><th colspan="6" style="border: 0px;">
 						<table style="width: 100%; color: #333;"><tr>
 							<th style="text-align: left; width: 30%;"><?php print($apage.$npage." / ".$pnums.$bpage); ?></th>
 							<th style="text-align: center;">Mail for &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i> &nbsp; &nbsp; <span class="label label-danger" style="padding-top: 4px; padding-bottom: 3px;" id="numb">0</span></th>
@@ -99,7 +99,7 @@
 							</th>
 						</tr></table>
 					</th></tr>
-					<tr><th colspan="4" style="text-align: center; border: 0px;">
+					<tr><th colspan="6" style="text-align: center; border: 0px;">
 						<?php if ($mode != "a") { print("<a href='".$webp."/mail/?b=all&p=".$npage."'>All</a>"); } else { print("All"); } ?>
 						 &nbsp; 
 						<?php if ($mode != "i") { print("<a href='".$webp."/mail/?b=inbox&p=".$npage."'>Inbox</a>"); } else { print("Inbox"); } ?>
@@ -109,10 +109,12 @@
 						<?php if ($mode != "d") { print("<a href='".$webp."/mail/?b=trash&p=".$npage."'>Deleted</a>"); } else { print("Deleted"); } ?>
 						</div>
 					</th></tr>
-					<tr><th colspan="4" style="border: 0px;"> &nbsp; </th></tr>
+					<tr><th colspan="6" style="border: 0px;"> &nbsp; </th></tr>
 					<tr>
-						<th class="colmin" style="border-top: 0px;"><center><input type="checkbox" style="margin-top: 0px; margin-bottom: 4px;" /></center></th>
-						<th class="colmin" style="border-top: 0px;"><center>Date</center></th>
+						<th class="colmin" style="border-top: 0px; padding-bottom: 6px;"><input type="checkbox" style="margin-top: 0px; margin-bottom: 4px;" /></th>
+						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><span class="glyphicon glyphicon-file"></span></th>
+						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><img src="<?php print($webp); ?>/img/lock.png" /></th>
+						<th class="colmin" style="border-top: 0px;">Date</th>
 						<th class="colmin" style="border-top: 0px;"><?php print($head); ?></th>
 						<th style="width: 99%; white-space: nowrap; border-top: 0px;">Subject</th>
 					</tr>

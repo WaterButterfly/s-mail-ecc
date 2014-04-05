@@ -69,7 +69,7 @@ base-64-e(aes-cbc-e(iv, key, email-message))
 
 
 > secure.email
-header-Zsmsg-User: base-64-e(iv) + " " + base-64-e(rsa-pub-e(base-64-e(key)))
+header-Zsmsg-User: User + " " + base-64-e(iv) + " " + base-64-e(rsa-pub-e(base-64-e(key)))
 header-Subject: base-64-e(aes-cbc-e(iv, key, subject))
 data-Message: base-64-e(aes-cbc-e(iv, key, message))
 

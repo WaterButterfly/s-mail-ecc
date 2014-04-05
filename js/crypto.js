@@ -120,11 +120,6 @@ function msgdec(mode)
 			var wide = "width: 0px;", style = "white-space: nowrap;";
 			var taga = "<span>", tagb = "</span>", tagc = "";
 			
-			if (j == 0)
-			{
-				tmpinf[j] = "<input type='checkbox' />";
-			}
-			
 			if (j == 1)
 			{
 				tmpinf[j] = tmpinf[j].formDate();
@@ -156,10 +151,18 @@ function msgdec(mode)
 		
 		if (mode == "list")
 		{
+			var cola = ("<td class='colmin'><input type='checkbox' name='"+mail[i][5]+"' /></td>");
+			var colb = ("<td class='colmin'><span>&nbsp;</span></td>");
+			var colc = ("<td class='colmin'><span>&nbsp;</span></td>");
+			var colt = mail[i][6].split(" ");
+			if ((colt.length > 1) && (colt[1] != "")) { colb = ("<td class='colmin'><span class='glyphicon glyphicon-file' style='top: 2px;'></span></td>"); }
+			if (seclist.length > 2) { colc = ("<td class='colmin'><img src='"+webp+"/img/lock.png' /></td>"); }
+			
 			var cold = tmpinf[2];
 			if (view == "o") { cold = tmpinf[3]; }
-			rdecdata += ("<tr style='cursor: pointer;' onclick='window.location.href = \""+webp+"/view/?e="+mail[i][5]+"&m=read\"'>"+tmpinf[0]+tmpinf[1]+cold+tmpinf[4]+"</tr>\n");
-			if (i == 0) { jQuery('#mail').html("<tr><td colspan='4'><center>Loading... <img src='"+webp+"/img/load.gif' /></center></td></tr>"); }
+			
+			rdecdata += ("<tr style='cursor: pointer;' onclick='window.location.href = \""+webp+"/view/?e="+mail[i][5]+"&m=read\"'>"+cola+colb+colc+tmpinf[1]+cold+tmpinf[4]+"</tr>\n");
+			if (i == 0) { jQuery('#mail').html("<tr><td colspan='6'><center>Loading... <img src='"+webp+"/img/load.gif' /></center></td></tr>"); }
 		}
 		
 		if (mode == "view")

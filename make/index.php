@@ -97,7 +97,9 @@
 		
 		<table style="width: 100%;">
 			<tr>
-				<td style="white-space: nowrap; vertical-align: top; padding-left: 5px; padding-right: 5px;"><span id="pkeys"><center> &nbsp; <br />Enter a "To" Address &nbsp; <span class="glyphicon glyphicon-arrow-right" style="top: 2px;"></span></center></span></td>
+				<td style="white-space: nowrap; vertical-align: top; padding-left: 5px; padding-right: 5px;"><span id="pkeys">
+					<center> &nbsp; <br /> &nbsp; <br /> &nbsp; <br />Enter a "To" Address &nbsp; <span class="glyphicon glyphicon-arrow-right" style="top: 2px;"></span></center>
+				</span></td>
 				
 				<td style="width: 80%; padding-right: 5px;">
 					<form id="send" method="post" class="form-horizontal" role="form">
@@ -107,8 +109,8 @@
 							<tr><td>
 								<div class="panel panel-primary">
 									<div class="panel-heading"><h3 class="panel-title"><b>
-										<a style="float: left; color: white !important;" href="javascript:window.history.back();">Back</a>
-										<center>Compose from &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i></center>
+										<a style="float: left; color: white !important;" href="javascript:window.history.back();"><span class="glyphicon glyphicon-circle-arrow-left" style="top: 2px;"></span> Back</a>
+										<center>New Message from &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i></center>
 									</b></h3></div>
 									<div class="panel-body" style="color: #333;">
 										<div class="form-group">
@@ -117,7 +119,7 @@
 												<input type="text" name="dest" id="dest" class="form-control" placeholder="user@host.com" value="<?php print($eadr); ?>" onkeyup="procdest(event);" />
 											</div>
 											<label for="inputsend" class="col-sm-3 control-label"> &nbsp; </label>
-											<button type="button" class="btn btn-sm btn-success" onfocus="jQuery('#subj').focus();" onclick="subsend();">Send</button>
+											<button type="button" class="btn btn-sm btn-success" onfocus="jQuery('#subj').focus();" onclick="subsend();" style="float: right; margin-right: 14px;">Send</button>
 										</div>
 										<div class="form-group">
 											<label for="inputhinta" class="col-sm-2 control-label">Helper &nbsp; <span class="glyphicon glyphicon-circle-arrow-right" style="top: 2px;"></span></label>

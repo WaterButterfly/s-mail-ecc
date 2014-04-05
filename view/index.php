@@ -45,9 +45,9 @@
 			
 			$data = file_get_contents($udir."/".$email);
 			$list = explode("\n", $data);
-			if (count($list) > 4)
+			if (count($list) > 5)
 			{
-				$smails = ("['".$list[0]."', '".$list[1]."', '".$list[2]."', '".$list[3]."', '".$list[4]."', '']");
+				$smails = ("['".$list[0]."', '".$list[1]."', '".$list[2]."', '".$list[3]."', '".$list[4]."', '', '".$list[5]."']");
 			}
 			
 			break;
@@ -66,7 +66,7 @@
 				<thead>
 					<tr><th colspan="4" style="border: 0px;">
 						<table style="width: 100%; color: #333;"><tr>
-							<th style="text-align: left; width: 30%;"><a href="javascript:window.history.back();" class="txtgreen">Back</a></th>
+							<th style="text-align: left; width: 30%;"><a href="javascript:window.history.back();" class="txtgreen"><span class="glyphicon glyphicon-circle-arrow-left" style="top: 2px;"></span> Back</a></th>
 							<th style="text-align: center;">Message for &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i></th>
 							<th style="text-align: right; width: 30%;">
 								<a href="<?php print($webp); ?>/make/?e=" class="txtgreen">Compose</a>
