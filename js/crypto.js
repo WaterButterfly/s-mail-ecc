@@ -172,7 +172,7 @@ function msgdec(mode)
 			{
 				if (j > 0)
 				{
-					jQuery('#attach').append("<a href='"+webp+"/download/?i="+tmpivr.strTOhex()+"&k="+tmpkey.strTOhex()+"&a="+rlist[j]+"'><span class='glyphicon glyphicon-file'></span> <span id='attach"+j+"'></span></a> &nbsp; &nbsp; ");
+					jQuery('#attach').append("<a href='"+webp+"/file/?i="+tmpivr.strTOhex()+"&k="+tmpkey.strTOhex()+"&e="+mail[i][5]+"&f="+rlist[j]+"'><span class='glyphicon glyphicon-file'></span> <span id='attach"+j+"'></span></a> &nbsp; &nbsp; ");
 					jQuery('#attach'+j).text(window.atob(flist[j]));
 				}
 			}

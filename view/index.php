@@ -48,13 +48,13 @@
 			$list = explode("\n", $data);
 			if (count($list) > 5)
 			{
-				$smails = ("['".$list[0]."', '".$list[1]."', '".$list[2]."', '".$list[3]."', '".trim($list[4])."', '.filename.', '".trim($list[5])."']");
+				$smails = ("['".$list[0]."', '".$list[1]."', '".$list[2]."', '".$list[3]."', '".trim($list[4])."', '".$email."', '".trim($list[5])."']");
 				$files = explode(" ", trim($list[5]));
-				foreach ($files as $attach)
+				foreach ($files as $file)
 				{
-					if (file_exists($atch."/".$attach))
+					if (file_exists($atch."/".$file))
 					{
-						$f = fopen($atch."/".$attach, "r"); $fnames .= (base64_encode(fgets($f))." "); fclose($f);
+						$f = fopen($atch."/".$file, "r"); $fnames .= (base64_encode(fgets($f))." "); fclose($f);
 					}
 				}
 			}
