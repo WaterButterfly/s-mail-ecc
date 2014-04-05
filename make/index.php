@@ -106,11 +106,10 @@
 						<table style="width: 100%;">
 							<tr><td>
 								<div class="panel panel-primary">
-									<div class="panel-heading">
-										<center><h3 class="panel-title"><b>
-											Compose &nbsp; &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i> &nbsp; &nbsp; <a href="javascript:window.history.back();" class="txtgreen">Back</a>
-										</b></h3></center>
-									</div>
+									<div class="panel-heading"><h3 class="panel-title"><b>
+										<a style="float: left; color: white !important;" href="javascript:window.history.back();">Back</a>
+										<center>Compose from &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i></center>
+									</b></h3></div>
 									<div class="panel-body" style="color: #333;">
 										<div class="form-group">
 											<label for="inputdest" class="col-sm-2 control-label">To</label>

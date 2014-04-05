@@ -64,14 +64,30 @@
 		<center>
 			<div class="divtable" style="width: 85% !important;"><table class="table table-condensed" style="color: #333;">
 				<thead>
-					<tr><th colspan="4" style="border: 0px;"><span style="float: left;"><a href="javascript:window.history.back();" class="txtgreen">Back</a></span><span style="float: right;"><a href="javascript:markread('<?php print($file); ?>');" class="txtgreen">Mark/Unmark</a></span></th></tr>
-					<tr><th colspan="4" style="text-align: center; border: 0px;">Message &nbsp; &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i></th></tr>
+					<tr><th colspan="4" style="border: 0px;">
+						<table style="width: 100%; color: #333;"><tr>
+							<th style="text-align: left; width: 30%;"><a href="javascript:window.history.back();" class="txtgreen">Back</a></th>
+							<th style="text-align: center;">Message for &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i></th>
+							<th style="text-align: right; width: 30%;">
+								<a href="<?php print($webp); ?>/make/?e=" class="txtgreen">Compose</a>
+								 &nbsp; 
+								<select>
+									<option ondo="javascript:markread('<?php print($file); ?>');">Mark Read</option>
+									<option ondo="javascript:markread('<?php print($file); ?>');">Mark New</option>
+									<option>Delete</option>
+									<option>Restore</option>
+								</select>
+								 &nbsp; 
+								<button type="button" class="btn btn-sm btn-primary">Go</button>
+							</th>
+						</tr></table>
+					</th></tr>
 					<tr><th colspan="4" style="text-align: center; border: 0px;">
-						<a href="<?php print($webp); ?>/make/?e=">New</a>
-						 &nbsp; 
 						<a href="javascript:window.location.href = '<?php print($webp); ?>/make/?e=' + jQuery('#from').text();">Reply</a>
 						 &nbsp; 
-						<a href="javascript:window.location.href = '<?php print($webp); ?>/make/?e=' + jQuery('#from').text().replace(user + '@' + dnsn, '') + ',' + jQuery('#dest').text().replace(user + '@' + dnsn, '');">Forward</a>
+						<a href="javascript:window.location.href = '<?php print($webp); ?>/make/?e=' + jQuery('#from').text().replace(user + '@' + dnsn, '') + ',' + jQuery('#dest').text().replace(user + '@' + dnsn, '');">Reply All</a>
+						 &nbsp; 
+						<a href="javascript:window.location.href = '<?php print($webp); ?>/make/?f=<?php print($file); ?>'">Forward</a>
 					</th></tr>
 				</thead>
 				<tbody id="mail">

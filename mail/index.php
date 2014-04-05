@@ -81,8 +81,24 @@
 		<center>
 			<div class="divtable" style="width: 85% !important;"><table class="table table-condensed table-striped" style="color: #333;">
 				<thead>
-					<tr><th colspan="4" style="border: 0px;"><span style="float: left;"><?php print($apage.$npage." / ".$pnums.$bpage); ?></span><span style="float: right;"><a href="<?php print($webp); ?>/make/?e=" class="txtgreen">Compose</a></span></th></tr>
-					<tr><th colspan="4" style="text-align: center; border: 0px;">Mail &nbsp; &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i> &nbsp; &nbsp; <span class="label label-danger" style="padding-top: 4px; padding-bottom: 3px;" id="numb">0</span></th></tr>
+					<tr><th colspan="4" style="border: 0px;">
+						<table style="width: 100%; color: #333;"><tr>
+							<th style="text-align: left; width: 30%;"><?php print($apage.$npage." / ".$pnums.$bpage); ?></th>
+							<th style="text-align: center;">Mail for &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i> &nbsp; &nbsp; <span class="label label-danger" style="padding-top: 4px; padding-bottom: 3px;" id="numb">0</span></th>
+							<th style="text-align: right; width: 30%;">
+								<a href="<?php print($webp); ?>/make/?e=" class="txtgreen">Compose</a>
+								 &nbsp; 
+								<select>
+									<option>Mark Read</option>
+									<option>Mark New</option>
+									<option>Delete</option>
+									<option>Restore</option>
+								</select>
+								 &nbsp; 
+								<button type="button" class="btn btn-sm btn-primary">Go</button>
+							</th>
+						</tr></table>
+					</th></tr>
 					<tr><th colspan="4" style="text-align: center; border: 0px;">
 						<?php if ($mode != "a") { print("<a href='".$webp."/mail/?b=all&p=".$npage."'>All</a>"); } else { print("All"); } ?>
 						 &nbsp; 
