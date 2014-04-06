@@ -84,5 +84,11 @@ filename
 aes-cbc-e(iv, key, base-64-e(filedata))
 
 
+[limiters]
+paging limit - ./mail/index.php
+inbox limit - ./sys/pmail.py
+send limit - ./make/index.php
+
+
 */
 ?>
