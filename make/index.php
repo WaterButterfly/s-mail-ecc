@@ -90,6 +90,51 @@
 ?>
 
 <html>
+	<script>
+		var anum = 0, init = 0;
+		function addattach()
+		{
+			if (anum != init)
+			{
+				jQuery('#attachg').append("<div id='rattach"+anum+"' class='form-group'><label for='inputhatch' class='col-sm-2 control-label'> &nbsp; </label><div class='col-sm-6 input-group-sm'><span id='file"+anum+"'></span></div></div>");
+			}
+			tnum = anum;
+			if (anum == init) { tnum = 0; }
+			jQuery('#file'+tnum).html("<a href='javascript:remattach("+anum+");' class='txtred'><span class='glyphicon glyphicon-remove-circle' style='top: 2px;'></span></a> &nbsp; <input type='file' name='file"+anum+"' style='display: inline;' />");
+			anum += 1;
+		}
+		function remattach(rnum)
+		{
+			if (rnum == init)
+			{
+				var srcid = "";
+				jQuery('span').each(function() {
+					if (srcid == "") {
+						if (jQuery(this).attr('id')) {
+							if (jQuery(this).attr('id').match(/^file[1-9][0-9]*$/)) {
+								if (jQuery(this).attr('id') != ("file" + init)) {
+									srcid = jQuery(this).attr('id');
+								}
+							}
+						}
+					}
+				});
+				if (srcid != "")
+				{
+					jQuery('#file0').html(jQuery('#'+srcid).html());
+					init = parseInt(srcid.replace(/[^0-9]/g, ""), 10);
+					rnum = init;
+				}
+				else
+				{
+					jQuery('#file0').html("");
+					init = anum;
+				}
+			}
+			jQuery('#rattach'+rnum).remove();
+		}
+	</script>
+	
 	<?php include($root."/html/head.html"); ?>
 	
 	<body onload="jQuery('#dest').focus(); getkeyi(user, '#keyi'); procdest({'keyCode':21});">
@@ -108,18 +153,20 @@
 						<table style="width: 100%;">
 							<tr><td>
 								<div class="panel panel-primary">
-									<div class="panel-heading"><h3 class="panel-title"><b>
-										<a style="float: left; color: white !important;" href="javascript:window.history.back();"><span class="glyphicon glyphicon-circle-arrow-left" style="top: 2px;"></span> Back</a>
-										<center>New Message from &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i></center>
-									</b></h3></div>
+									<div class="panel-heading" style="padding-top: 3px; padding-bottom: 3px;">
+										<table style="width: 100%;"><tr>
+											<th style="text-align: left; width: 30%;"><a style="color: white !important;" href="javascript:window.history.back();"><span class="glyphicon glyphicon-circle-arrow-left" style="top: 2px;"></span> Back</a></th>
+											<th style="text-align: center;">New Message from &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i></th>
+											<th style="text-align: right; width: 30%;"><button type="button" class="btn btn-sm btn-warning" onclick="subsend();" style="float: right; margin-right: 14px;">Send</button></th>
+										</tr></table>
+									</div>
 									<div class="panel-body" style="color: #333;">
 										<div class="form-group">
 											<label for="inputdest" class="col-sm-2 control-label">To</label>
 											<div class="col-sm-6 input-group-sm">
-												<input type="text" name="dest" id="dest" class="form-control" placeholder="user@host.com" value="<?php print($eadr); ?>" onkeyup="procdest(event);" />
+												<input type="text" name="dest" id="dest" class="form-control" placeholder="user@host.com, ..." value="<?php print($eadr); ?>" onkeyup="procdest(event);" />
 											</div>
 											<label for="inputsend" class="col-sm-3 control-label"> &nbsp; </label>
-											<button type="button" class="btn btn-sm btn-success" onfocus="jQuery('#subj').focus();" onclick="subsend();" style="float: right; margin-right: 14px;">Send</button>
 										</div>
 										<div class="form-group">
 											<label for="inputhinta" class="col-sm-2 control-label">Helper &nbsp; <span class="glyphicon glyphicon-circle-arrow-right" style="top: 2px;"></span></label>
@@ -131,6 +178,13 @@
 												<input type="text" name="subj" id="subj" class="form-control" placeholder="Subject" onfocus="jQuery('#hint').text('');" />
 											</div>
 										</div>
+										<div class="form-group">
+											<label for="inputhatch" class="col-sm-2 control-label" style="padding-top: 1px;"><a href="javascript:addattach();" class="txtgreen">Attach <span class="glyphicon glyphicon-plus-sign" style="top: 2px;"></span></a></label>
+											<div class="col-sm-6 input-group-sm">
+												<span id="file0"></span>
+											</div>
+										</div>
+										<span id="attachg"></span>
 										<div class="form-group">
 											<div class="col-sm-12 input-group-sm">
 												<textarea name="mesg" id="mesg" class="form-control" placeholder="Message" style="height: 512px;" onfocus="jQuery('#hint').text('');"></textarea>

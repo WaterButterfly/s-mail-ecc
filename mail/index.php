@@ -116,14 +116,14 @@
 							<th style="text-align: left; width: 30%;"><?php print($apage.$npage." / ".$pnums.$bpage); ?></th>
 							<th style="text-align: center;">Mail for &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i> &nbsp; &nbsp; <span class="label label-success" style="padding-top: 4px; padding-bottom: 3px;" id="numb">0</span></th>
 							<th style="text-align: right; width: 30%;">
-								<a href="<?php print($webp); ?>/make/?e=" class="txtgreen">Compose</a>
+								<button type="button" class="btn btn-sm btn-success" onclick="location.href = '<?php print($webp); ?>/make/';"><span class="glyphicon glyphicon-plus-sign" style="top: 2px;"></span> &nbsp; New</button>
 								 &nbsp; 
 								<select id="mailmark">
 									<option name="m">Mark Read / Unread</option>
 									<option name="d">Delete / Restore</option>
 								</select>
 								 &nbsp; 
-								<button type="button" class="btn btn-sm btn-success" onclick="jQuery('input:checkbox[name=chkmail]:checked').each(function() { markmail(jQuery(this).attr('id'), jQuery('#mailmark').find(':selected').attr('name')); }); window.location.href = surls;">Go</button>
+								<button type="button" class="btn btn-sm btn-primary" onclick="jQuery('input:checkbox[name=chkmail]:checked').each(function() { markmail(jQuery(this).attr('id'), jQuery('#mailmark').find(':selected').attr('name')); }); window.location.href = surls;">Go</button>
 							</th>
 						</tr></table>
 					</th></tr>
