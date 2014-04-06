@@ -50,11 +50,11 @@
 			{
 				$smails = ("['".$list[0]."', '".$list[1]."', '".$list[2]."', '".$list[3]."', '".trim($list[4])."', '".$email."', '".trim($list[5])."']");
 				$files = explode(" ", trim($list[5]));
-				foreach ($files as $file)
+				foreach ($files as $afile)
 				{
-					if (file_exists($atch."/".$file))
+					if (file_exists($atch."/".$afile))
 					{
-						$f = fopen($atch."/".$file, "r"); $fnames .= (base64_encode(fgets($f))." "); fclose($f);
+						$f = fopen($atch."/".$afile, "r"); $fnames .= (base64_encode(fgets($f))." "); fclose($f);
 					}
 				}
 			}
