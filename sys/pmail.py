@@ -115,12 +115,15 @@ def main():
 								rndstr = ""
 								for x in range(0, 16):
 									rndstr += str(random.randint(0, 9))
+								
 								tmprnd = ("attach.%d.%s" % (os.getpid(), rndstr))
+								
 								if (not os.path.isfile("%s/%s" % (maildata, tmprnd))):
 									attaobjc = open("%s/%s" % (maildata, tmprnd), "w")
 									os.system("%s %s/%s" % (mailcomd, maildata, tmprnd))
 									attaobjc.write(str(argxobjc.group(1)).strip() + "\n")
 									attalist.append(tmprnd)
+									tempsivr = ("" + encrsivr + "")
 									break
 							
 							markflag = 4
@@ -145,9 +148,10 @@ def main():
 						while ((len(tempdata) % 16) != 0):
 							tempdata += chr(0)
 						
-						tempsivr = ("" + encrsivr + ""); tempskey = ("" + encrskey + "")
+						tempskey = ("" + encrskey + "")
 						encrsobj = Crypto.Cipher.AES.new(tempskey, Crypto.Cipher.AES.MODE_CBC, tempsivr)
 						tempsmsg = encrsobj.encrypt(tempdata)
+						tempsivr = ("" + tempsmsg[-16:] + "")
 						
 						attaobjc.write(tempsmsg)
 						break

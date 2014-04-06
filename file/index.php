@@ -6,8 +6,18 @@
 	
 	$user = $_SESSION["auth"][0];
 	
-	$i = saferstr($_GET["i"], $unchrs);
-	$k = saferstr($_GET["k"], $unchrs);
+	$i = "";
+	for ($x = 0; ($x + 1) < strlen($_GET["i"]); $x += 2)
+	{
+		$i .= chr(hexdec(substr($_GET["i"], $x, 2)));
+	}
+	
+	$k = "";
+	for ($x = 0; ($x + 1) < strlen($_GET["k"]); $x += 2)
+	{
+		$k .= chr(hexdec(substr($_GET["k"], $x, 2)));
+	}
+	
 	$e = saferstr($_GET["e"], $unchrs);
 	$f = saferstr($_GET["f"], $unchrs);
 	
@@ -32,8 +42,46 @@
 				{
 					if (file_exists($atch."/".$file) && ($file == $f))
 					{
-						print("here\n");
-						break;
+						$data = ""; $name = ""; $buff = "";
+						$fobj = fopen($atch."/".$file, "r");
+						while (!feof($fobj))
+						{
+							$data .= fread($fobj, 4096);
+							if ($name == "")
+							{
+								$p = strpos($data, "\n");
+								if ($p === false) { /* no-op */ }
+								else
+								{
+									$name = substr($data, 0, $p);
+									header("Content-Type: application/octet-stream");
+									header("Content-Disposition: attachment; filename=".$name);
+									$data = substr($data, $p + 1);
+								}
+							}
+							if ($name != "")
+							{
+								$leng = strlen($data);
+								for ($x = 0; ($x + 15) < $leng; $x += 16)
+								{
+									$block = substr($data, $x, 16);
+									$ti = $block;
+									$buff .= trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $k, $block, MCRYPT_MODE_CBC, $i));
+									$blen = strlen($buff);
+									for ($y = 0; ($y + 3) < $blen; $y += 4)
+									{
+										$block = substr($buff, $y, 4);
+										print(base64_decode($block));
+									}
+									$buff = substr($buff, $y);
+									$i = $ti;
+								}
+								$data = substr($data, $x);
+								break;
+							}
+						}
+						fclose($fobj);
+						die;
 					}
 				}
 			}
