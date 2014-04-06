@@ -100,7 +100,7 @@
 			}
 			tnum = anum;
 			if (anum == init) { tnum = 0; }
-			jQuery('#file'+tnum).html("<a href='javascript:remattach("+anum+");' class='txtred'><span class='glyphicon glyphicon-remove-circle' style='top: 2px;'></span></a> &nbsp; <input type='file' name='file"+anum+"' style='display: inline;' />");
+			jQuery('#file'+tnum).html("<a href='javascript:remattach("+anum+");' class='txtred'><span class='glyphicon glyphicon-remove-circle' style='top: 2px;'></span></a> &nbsp; <input type='file' name='attachfile[]' style='display: inline;' />");
 			anum += 1;
 		}
 		function remattach(rnum)
@@ -147,7 +147,7 @@
 				</span></td>
 				
 				<td style="width: 80%; padding-right: 5px;">
-					<form id="send" method="post" class="form-horizontal" role="form">
+					<form id="send" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
 					<input type="hidden" name="type" id="type" value="mail" />
 					<input type="hidden" name="ekey" id="ekey" value="" />
 						<table style="width: 100%;">
