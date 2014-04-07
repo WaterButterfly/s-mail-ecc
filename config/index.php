@@ -85,7 +85,7 @@ aes-cbc-e(iv, key, base-64-e(filedata))
 
 
 [limiters]
-cookie/session - ...
+session expire - grep -i '^session.*life' -R /etc -I
 upload file size - grep -i '_max_.*size' -R /etc -I
 paging amount - ./mail/index.php
 inbox size - ./sys/pmail.py

@@ -41,7 +41,19 @@
 					rename($udir."/".$email, $udir."/".$fnew);
 					$email = $fnew;
 				}
-				if ($_GET["m"] == "true") { break; }
+				if ($_GET["m"] == "true") { die; }
+			}
+			
+			if (isset($_GET["d"]))
+			{
+				if ($_GET["d"] == "true") { $repl = ".trash"; if (preg_match("/^.*\.trash$/i", $email)) { $repl = ""; } }
+				$fnew = preg_replace("/^(.*)(|\.trash)$/i", "$1".$repl, preg_replace("/\.trash/i", "", $email));
+				if ($fnew != $email)
+				{
+					rename($udir."/".$email, $udir."/".$fnew);
+					$email = $fnew;
+				}
+				if ($_GET["d"] == "true") { die; }
 			}
 			
 			$data = file_get_contents($udir."/".$email);
