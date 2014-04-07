@@ -10,6 +10,41 @@
 	$udir = ($mail."/".$user);
 	$emails = scandir($udir);
 	
+	if (isset($_GET["empty"]) && ($_GET["empty"] == "true"))
+	{
+		foreach ($emails as $email)
+		{
+			if (preg_match("/^.*\.trash$/i", $email))
+			{
+				$pntr = 0; $flag = 0;
+				$afile = "";
+				$fobj = fopen($udir."/".$email, "r");
+				
+				while (1)
+				{
+					$pntr -= 1; fseek($fobj, $pntr, SEEK_END);
+					$char = fgetc($fobj);
+					if ($char === false) { break; }
+					if (ord($char) > 30) { $flag = 1; }
+					else if ($flag != 0) { break; }
+					if ($flag == 1) { $afile = ($char.$afile); }
+				}
+				
+				$afiles = explode(" ", $afile);
+				foreach ($afiles as $afilei)
+				{
+					if (trim($afilei) == "") { continue; }
+					if (file_exists($atch."/".$afilei))
+					{
+						unlink($atch."/".$afilei);
+					}
+				}
+				
+				unlink($udir."/".$email);
+			}
+		}
+	}
+	
 	$npage = 1;
 	if (isset($_GET["p"])) { $npage = max(1, intval($_GET["p"])); }
 	
@@ -101,6 +136,14 @@
 	<script>
 		var view = "<?php print($mode); ?>";
 		var surls = "<?php print($surls); ?>";
+		
+		function rm()
+		{
+			if (confirm("Are you sure you'd like to empty the deleted items?"))
+			{
+				location.href = (surls + "&empty=true");
+			}
+		}
 	</script>
 	
 	<?php include($root."/html/head.html"); ?>
@@ -134,7 +177,7 @@
 						 &nbsp; 
 						<?php if ($mode != "o") { print("<a href='".$webp."/mail/?b=outbox'>Outbox</a>"); } else { print("Outbox"); } ?>
 						 &nbsp; 
-						<?php if ($mode != "d") { print("<a href='".$webp."/mail/?b=trash'>Deleted</a>"); } else { print("Deleted"); } ?>
+						<?php if ($mode != "d") { print("<a href='".$webp."/mail/?b=trash'>Deleted</a>"); } else { print("Deleted &nbsp; [ <a href='javascript:rm();'>Empty</a> ]"); } ?>
 						</div>
 					</th></tr>
 					<tr><th colspan="7" style="border: 0px;"> &nbsp; </th></tr>
@@ -143,7 +186,7 @@
 						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><a href="<?php print(str_replace('&s=', '&t=', $surls).'&s=n'); ?>"><span class="glyphicon glyphicon-sort"></span></a></th>
 						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><span class="glyphicon glyphicon-file" style="color: #555555;"></span></th>
 						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><img src="<?php print($webp); ?>/img/lock.png" /></th>
-						<th class="colmin" style="border-top: 0px;">Date &nbsp; <a href="<?php print(str_replace('&s=', '&t=', $surls).'&s='.$dchg); ?>"><span class="glyphicon glyphicon-sort"></span></a></th>
+						<th class="colmin" style="border-top: 0px;">Date <a href="<?php print(str_replace('&s=', '&t=', $surls).'&s='.$dchg); ?>"><span class="glyphicon glyphicon-sort"></span></a></th>
 						<th class="colmin" style="border-top: 0px;"><?php print($head); ?></th>
 						<th style="width: 99%; white-space: nowrap; border-top: 0px;">Subject</th>
 					</tr>
