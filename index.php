@@ -13,26 +13,23 @@
 		$udir = ($mail."/".$user);
 		$file = ($udir."/".$user.".auth");
 		
-		$data = file_get_contents($file);
-		$list = explode("\n", $data);
-		
-		if (count($list) > 3)
+		if (file_exists($file))
 		{
-			if ($_POST["pass"] == $list[1])
+			$data = file_get_contents($file);
+			$list = explode("\n", $data);
+			if (count($list) > 3)
 			{
-				$_SESSION["auth"] = $list;
-				$auth = 1;
-			}
-			
-			else
-			{
-				$mesg = ("<font class='txtred'>Incorrect login!</font>");
+				if ($_POST["pass"] == $list[1])
+				{
+					$_SESSION["auth"] = $list;
+					$auth = 1;
+				}
 			}
 		}
 		
-		else
+		if ($auth == 0)
 		{
-			$mesg = ("<font class='txtred'>Sorry, something went wrong on our end!</font>");
+			$mesg = ("<font class='txtred'>Incorrect login!</font>");
 		}
 	}
 	
@@ -70,9 +67,8 @@
 						</div>
 					</form>
 				</td><td style="width: 0%; white-space: nowrap;"> &nbsp; </td></tr>
-				<tr><td colspan="3"><center><span id="mesg"> &nbsp; <?php print($mesg); ?> &nbsp; </span></center></td></tr>
 				
-				<tr><td colspan="3"> &nbsp; </td></tr>
+				<tr><td colspan="3"><center><span id="mesg"> &nbsp; <br /><?php print($mesg); ?><br /> &nbsp; </span></center></td></tr>
 				
 				<tr><td colspan="3">
 					<div class="panel panel-primary">

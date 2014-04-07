@@ -12,81 +12,148 @@
 	
 	if (isset($_POST) && isset($_POST["dest"]))
 	{
+		$ekey = saferstr($_POST["ekey"], $unchrs." /,;");
+		$ekey = str_replace(";", ",", $ekey);
+		$elst = explode(",", $ekey);
+		
+		$dadr = saferstr($_POST["dest"], $unchrs."@,;");
+		$dadr = str_replace(";", ",", $dadr);
+		$dlst = explode(",", $dadr);
+		
+		$subj = saferstr($_POST["subj"], " ~!@#%^&*-=+_<>[]{}();:,.?/`'\$\"\\");
+		$auma = trim(file_get_contents($mail."/"."server.auth"));
+		
+		$mesg = ("\n".$_POST["mesg"]."\n");
+		$mesg = str_replace("\r", "", $mesg);
+		$mesg = str_replace("\n.\n", "\n . \n", $mesg);
+		$mesg = trim($mesg);
+		
+		while (1)
+		{
+			$bound = hash("sha256", time()." ".rand());
+			if (strpos($mesg, $bound) === false) { break; }
+		}
+		$boundb = ($bound."0");
+		
 		if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) { /* no-op */ }
 		else
 		{
 			if (socket_connect($sock, "127.0.0.1", 25) === false) { /* no-op */ }
 			else
 			{
-				$ekey = saferstr($_POST["ekey"], $unchrs." /,;");
-				$ekey = str_replace(";", ",", $ekey);
-				$elst = explode(",", $ekey);
-				
-				$dadr = saferstr($_POST["dest"], $unchrs."@,;");
-				$dadr = str_replace(";", ",", $dadr);
-				$dlst = explode(",", $dadr);
-				
-				$subj = saferstr($_POST["subj"], " ~!@#%^&*-=+_<>[]{}();:,.?/`'\$\"\\");
-				$auma = trim(file_get_contents($mail."/"."server.auth"));
-				
-				$desc = ("\n".$_POST["mesg"]."\n");
-				$desc = str_replace("\r", "", $desc);
-				$desc = str_replace("\n.\n", "\n . \n", $desc);
-				
-				$dbeg = ("EHLO goodsir\n");
-				$dbeg .= ("AUTH PLAIN ".$auma."\n");
-				$dbeg .= ("MAIL FROM: ".$user."@".$name."\n");
-				
-				foreach ($dlst as $item)
-				{
-					if (strpos($item, "@") !== false)
-					{
-						$dbeg .= ("RCPT TO: ".$item."\n");
-					}
-				}
-				
-				$dbeg .= ("DATA\n");
-				
-				$dmid = ("Zsflag: true\n");
-				$dmid .= ("From: ".$user."@".$name."\n");
-				$dmid .= ("To: ".$dadr."\n");
-				$dmid .= ("Subject: ".$subj."\n");
-				
-				$fileleng = count($_FILES["attach"]["name"]);
-				if ($fileleng > 0)
-				{
-					$dmid .= ("Content-Type: multipart/mixed; boundary="."047d7b2e4016d24ce204f63e8b83"."\n");
-				}
-				
-				$dmid .= ("\n");
-				
-				if ($_POST["type"] == "emsg")
-				{
-					foreach ($elst as $item)
-					{
-						$info = explode(" ", $item);
-						if (count($info) > 2)
-						{
-							$dmid .= ("Zsmsg-".$info[0].": ".$item."\n");
-						}
-					}
-					$dmid .= ("\n");
-				}
-				
-				$dend = (trim($desc)."\n");
-				
-				$data = ($dbeg.$dmid.$dend.".\n"."QUIT\n");
-				socket_write($sock, $data, strlen($data));
-				socket_close($sock);
-				
-				$data = ($dmid.$dend);
 				$filedesc = array(0 => array("pipe", "r"), 1 => array("pipe", "w"), 2 => array("file", "/dev/null", "w"));
 				$fileproc = proc_open($post." sent", $filedesc, $filepipe, "/tmp", array());
+				
 				if (is_resource($fileproc))
 				{
-					fwrite($filepipe[0], $data);
+					$temp = ("EHLO goodsir\n");
+					$temp .= ("AUTH PLAIN ".$auma."\n");
+					$temp .= ("MAIL FROM: ".$user."@".$name."\n");
+					$destleng = count($dlst);
+					for ($x = 0, $y = 0; ($x < $destleng) && ($y < 5); $x += 1)
+					{
+						if (strpos($dlst[$x], "@") !== false)
+						{
+							$temp .= ("RCPT TO: ".$dlst[$x]."\n");
+							$y += 1;
+						}
+					}
+					$temp .= ("DATA\n");
+					socket_write($sock, $temp, strlen($temp));
+					
+					
+					$temp = ("Zsflag: true\n");
+					$temp .= ("From: ".$user."@".$name."\n");
+					$temp .= ("To: ".$dadr."\n");
+					$temp .= ("Subject: ".$subj."\n");
+					socket_write($sock, $temp, strlen($temp));
+					fwrite($filepipe[0], $temp);
+					
+					$fileleng = count($_FILES["attach"]["name"]);
+					if ($fileleng > 0)
+					{
+						$temp = ("Content-Type: multipart/mixed; boundary=".$boundb."\n");
+						socket_write($sock, $temp, strlen($temp));
+						fwrite($filepipe[0], $temp);
+					}
+					
+					$temp = ("\n");
+					
+					if ($_POST["type"] == "emsg")
+					{
+						foreach ($elst as $item)
+						{
+							$info = explode(" ", $item);
+							if (count($info) > 2)
+							{
+								$temp .= ("Zsmsg-".$info[0].": ".$item."\n");
+							}
+						}
+						$temp .= ("\n");
+					}
+					
+					socket_write($sock, $temp, strlen($temp));
+					fwrite($filepipe[0], $temp);
+					
+					if ($fileleng > 0)
+					{
+						$temp = ("--".$boundb."\n");
+						$temp .= ("Content-Type: multipart/alternative; boundary=".$bound."\n");
+						$temp .= ("\n");
+						$temp .= ("--".$bound."\n");
+						$temp .= ("Content-Type: text/plain; charset=us-ascii"."\n");
+						$temp .= ("\n");
+						socket_write($sock, $temp, strlen($temp));
+						fwrite($filepipe[0], $temp);
+					}
+					
+					$temp = ($mesg."\n");
+					socket_write($sock, $temp, strlen($temp));
+					fwrite($filepipe[0], $temp);
+					
+					if ($fileleng > 0)
+					{
+						$temp = ("--".$bound."--"."\n");
+						socket_write($sock, $temp, strlen($temp));
+						fwrite($filepipe[0], $temp);
+						
+						for ($x = 0; ($x < $fileleng) && ($x < 5); $x += 1)
+						{
+							$fname = saferstr($_FILES["attach"]["name"][$x], " ~!@#$%^&*:;,.-=_+");
+							
+							$temp = ("--".$boundb."\n");
+							$temp .= ("Content-Type: application/octet-stream; name=\"".$fname."\""."\n");
+							$temp .= ("Content-Disposition: attachment; filename=\"".$fname."\""."\n");
+							$temp .= ("Content-Transfer-Encoding: base64"."\n");
+							$temp .= ("\n");
+							socket_write($sock, $temp, strlen($temp));
+							fwrite($filepipe[0], $temp);
+							
+							$fobj = fopen($_FILES["attach"]["tmp_name"][$x], "r");
+							while (!feof($fobj))
+							{
+								$data = fread($fobj, 48);
+								$temp = (base64_encode($data)."\n");
+								socket_write($sock, $temp, strlen($temp));
+								fwrite($filepipe[0], $temp);
+							}
+							fclose($fobj);
+						}
+						
+						$temp = ("--".$boundb."--"."\n");
+						socket_write($sock, $temp, strlen($temp));
+						fwrite($filepipe[0], $temp);
+					}
+					
+					
+					$temp = ("\n.\n"."QUIT\n");
+					socket_write($sock, $temp, strlen($temp));
+					
+					
 					fclose($filepipe[0]);
 					fclose($filepipe[1]);
+					
+					socket_close($sock);
 					proc_close($fileproc);
 				}
 				
@@ -186,7 +253,7 @@
 											</div>
 										</div>
 										<div class="form-group">
-											<label for="inputhatch" class="col-sm-2 control-label" style="padding-top: 1px;"><a href="javascript:addattach();" class="txtgreen">Attach <span class="glyphicon glyphicon-plus-sign" style="top: 2px;"></span></a></label>
+											<label for="inputhatch" class="col-sm-2 control-label" style="padding-top: 1px;"><a href="javascript:addattach();" class="txtgreen" onfocus="jQuery('#mesg').focus();">Attach <span class="glyphicon glyphicon-plus-sign" style="top: 2px;"></span></a></label>
 											<div class="col-sm-6 input-group-sm">
 												<span id="file0"></span>
 											</div>

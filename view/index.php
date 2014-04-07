@@ -84,14 +84,14 @@
 							</th>
 							<th style="text-align: center;">Message for &nbsp; <i>[ <?php print($user."@".$name); ?> ]</i></th>
 							<th style="text-align: right; width: 30%;">
-								<button type="button" class="btn btn-sm btn-success" onclick="location.href = '<?php print($webp); ?>/make/';"><span class="glyphicon glyphicon-plus-sign" style="top: 2px;"></span> &nbsp; New</button>
+								<button type="button" class="btn btn-sm btn-success" style="padding-top: 2px; padding-bottom: 1px;" onclick="location.href = '<?php print($webp); ?>/make/';"><span class="glyphicon glyphicon-plus-sign" style="top: 2px;"></span> &nbsp; New</button>
 								 &nbsp; 
 								<select id="mailmark">
 									<option name="m" id="<?php print($file); ?>">Mark Read / Unread</option>
 									<option name="d" id="<?php print($file); ?>">Delete / Restore</option>
 								</select>
 								 &nbsp; 
-								<button type="button" class="btn btn-sm btn-primary" onclick="markmail(jQuery('#mailmark').find(':selected').attr('id'), jQuery('#mailmark').find(':selected').attr('name')); window.history.back();">Go</button>
+								<button type="button" class="btn btn-sm btn-primary" style="padding-top: 2px; padding-bottom: 1px;" onclick="markmail(jQuery('#mailmark').find(':selected').attr('id'), jQuery('#mailmark').find(':selected').attr('name')); window.history.back();">Go</button>
 							</th>
 						</tr></table>
 					</th></tr>
