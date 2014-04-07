@@ -85,9 +85,11 @@ aes-cbc-e(iv, key, base-64-e(filedata))
 
 
 [limiters]
-paging limit - ./mail/index.php
-inbox limit - ./sys/pmail.py
-send limit - ./make/index.php
+cookie/session - ...
+upload file size - grep -i '_max_.*size' -R /etc -I
+paging amount - ./mail/index.php
+inbox size - ./sys/pmail.py
+send rate/amount - ./make/index.php
 
 
 */

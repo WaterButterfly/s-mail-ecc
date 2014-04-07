@@ -51,6 +51,13 @@
 				$dmid .= ("From: ".$user."@".$name."\n");
 				$dmid .= ("To: ".$dadr."\n");
 				$dmid .= ("Subject: ".$subj."\n");
+				
+				$fileleng = count($_FILES["attach"]["name"]);
+				if ($fileleng > 0)
+				{
+					$dmid .= ("Content-Type: multipart/mixed; boundary="."047d7b2e4016d24ce204f63e8b83"."\n");
+				}
+				
 				$dmid .= ("\n");
 				
 				if ($_POST["type"] == "emsg")
@@ -100,7 +107,7 @@
 			}
 			tnum = anum;
 			if (anum == init) { tnum = 0; }
-			jQuery('#file'+tnum).html("<a href='javascript:remattach("+anum+");' class='txtred'><span class='glyphicon glyphicon-remove-circle' style='top: 2px;'></span></a> &nbsp; <input type='file' name='attachfile[]' style='display: inline;' />");
+			jQuery('#file'+tnum).html("<a href='javascript:remattach("+anum+");' class='txtred'><span class='glyphicon glyphicon-remove-circle' style='top: 2px;'></span></a> &nbsp; <input type='file' name='attach[]' style='display: inline;' />");
 			anum += 1;
 		}
 		function remattach(rnum)

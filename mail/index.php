@@ -141,7 +141,7 @@
 					<tr>
 						<th class="colmin" style="border-top: 0px; padding-bottom: 6px;"><input type="checkbox" style="margin-top: 0px; margin-bottom: 4px;" onclick="jQuery('*').find(':checkbox').prop('checked', jQuery(this).prop('checked'));" /></th>
 						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><a href="<?php print(str_replace('&s=', '&t=', $surls).'&s=n'); ?>"><span class="glyphicon glyphicon-sort"></span></a></th>
-						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><span class="glyphicon glyphicon-file"></span></th>
+						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><span class="glyphicon glyphicon-file" style="color: #555555;"></span></th>
 						<th class="colmin" style="border-top: 0px; padding-bottom: 10px;"><img src="<?php print($webp); ?>/img/lock.png" /></th>
 						<th class="colmin" style="border-top: 0px;">Date &nbsp; <a href="<?php print(str_replace('&s=', '&t=', $surls).'&s='.$dchg); ?>"><span class="glyphicon glyphicon-sort"></span></a></th>
 						<th class="colmin" style="border-top: 0px;"><?php print($head); ?></th>
